@@ -10,7 +10,7 @@ using VacationPortal.DataAccess.Data;
 namespace VacationPortal.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220226210928_InitialSchema")]
+    [Migration("20220226212903_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -331,7 +331,7 @@ namespace VacationPortal.DataAccess.Migrations
                 {
                     b.HasBaseType("VacationPortal.Models.User");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -344,7 +344,7 @@ namespace VacationPortal.DataAccess.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int?>("PositionId")
                         .HasColumnType("int");
 
                     b.HasIndex("DepartmentId");
@@ -443,8 +443,7 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasOne("VacationPortal.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("VacationPortal.Models.User", null)
                         .WithOne()
@@ -455,8 +454,7 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasOne("VacationPortal.Models.Position", "Position")
                         .WithMany("Employees")
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Department");
 

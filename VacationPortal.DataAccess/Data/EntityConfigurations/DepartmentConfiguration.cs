@@ -17,8 +17,14 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
             builder.Property(d => d.FullName).IsRequired().HasMaxLength(30);
             builder.Property(d => d.Description).HasMaxLength(255);
 
-            builder.HasMany(d => d.Employees).WithOne(e => e.Department).HasForeignKey(e => e.DepartmentId);
-            builder.HasMany(d => d.Positions).WithOne(p => p.Department).HasForeignKey(p => p.DepartmentId);
+            builder.HasMany(d => d.Employees)
+                .WithOne(e => e.Department)
+                .HasForeignKey(e => e.DepartmentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(d => d.Positions)
+                .WithOne(p => p.Department)
+                .HasForeignKey(p => p.DepartmentId);
         }
     }
 }
