@@ -1,2 +1,5 @@
+.vs
 VacationPortal.Models/obj
 VacationPortal.Models/bin
+VacationPortal.DataAccess/obj
+VacationPortal.DataAccess/bin
