@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace VacationPortal.Models
 {
-    public class User
+    public class User: IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public User()
+        {
+
+        }
     }
 }
