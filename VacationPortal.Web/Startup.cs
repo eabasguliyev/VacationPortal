@@ -54,7 +54,7 @@ namespace VacationPortal.Web
             {
                 endpoints.MapControllerRoute(
                     name: "areas",
-                    pattern: "{area:Client}/{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{area=Employee}/{controller=Home}/{action=Index}/{id?}"
                   );
             });
         }

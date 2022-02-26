@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using VacationPortal.DataAccess.Repositories;
-using VacationPortal.Models;
-using VacationPortal.Web.Models;
+using VacationPortal.Web.Areas.Employee.Models;
 
-namespace VacationPortal.Web.Controllers
+namespace VacationPortal.Web.Areas.Employee.Controllers
 {
     public class HomeController : Controller
     {
