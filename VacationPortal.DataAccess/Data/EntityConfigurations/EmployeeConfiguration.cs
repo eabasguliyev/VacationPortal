@@ -13,6 +13,7 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
+            builder.ToTable(nameof(Employee) + "s");
             builder.Property(e => e.FirstName).IsRequired().HasMaxLength(15);
             builder.Property(e => e.LastName).IsRequired().HasMaxLength(25);
 
