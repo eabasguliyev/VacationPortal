@@ -4,6 +4,5 @@ namespace VacationPortal.Models
 {
     public class UserRole: IdentityRole<int>
     {
-
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace VacationPortal.Web.Areas.Employee.Models
+namespace VacationPortal.Web.Areas.Employeex.Models
 {
     public class ErrorViewModel
     {

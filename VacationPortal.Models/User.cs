@@ -6,10 +6,5 @@ namespace VacationPortal.Models
     public class User: IdentityUser<int>
     {
         public DateTime CreatedDate { get; set; }
-
-        public User()
-        {
-
-        }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using VacationPortal.Web.Areas.Employee.Models;
+using VacationPortal.Web.Areas.Employeex.Models;
 
-namespace VacationPortal.Web.Areas.Employee.Controllers
+namespace VacationPortal.Web.Areas.Employeex.Controllers
 {
+    [Area("Employee")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

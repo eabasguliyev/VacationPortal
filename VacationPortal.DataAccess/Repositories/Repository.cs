@@ -35,11 +35,13 @@ namespace VacationPortal.DataAccess.Repositories
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> expression, string includeProperties = null)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> expression, bool noTracking = false, string includeProperties = null)
         {
             IQueryable<T> query = _dbSet.Where(expression);
 
             query = includeProperties != null ? query.IncludeProperties(includeProperties) : query;
+
+            query = noTracking ? query.AsNoTracking() : query;
 
             return query.FirstOrDefault();
         }
