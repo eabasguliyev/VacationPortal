@@ -13,8 +13,8 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.Property(d => d.ShortName).HasMaxLength(15);
-            builder.Property(d => d.FullName).IsRequired().HasMaxLength(30);
+            builder.Property(d => d.ShortName).HasMaxLength(128);
+            builder.Property(d => d.FullName).IsRequired().HasMaxLength(128);
             builder.Property(d => d.Description).HasMaxLength(255);
 
             builder.HasMany(d => d.Employees)

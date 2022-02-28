@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +11,8 @@ using VacationPortal.DataAccess.Data;
 using VacationPortal.DataAccess.Repositories;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
+using VacationPortal.Web.Areas.Admin.Models.EmployeeVMs;
+using VacationPortal.Web.Validations;
 
 namespace VacationPortal.Web
 {
@@ -24,7 +28,13 @@ namespace VacationPortal.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                    .AddFluentValidation();
+
+            services.AddTransient<IValidator<Department>, DepartmentValidation>();
+            services.AddTransient<IValidator<Position>, PositionValidation>();
+            services.AddTransient<IValidator<EmployeeVM>, EmployeeValidation>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                                 options.UseSqlServer(Configuration.GetConnectionString("Local")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();

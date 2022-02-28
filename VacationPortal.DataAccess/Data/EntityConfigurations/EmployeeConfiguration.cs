@@ -14,8 +14,8 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.ToTable(nameof(Employee) + "s");
-            builder.Property(e => e.FirstName).IsRequired().HasMaxLength(15);
-            builder.Property(e => e.LastName).IsRequired().HasMaxLength(25);
+            builder.Property(e => e.FirstName).IsRequired().HasMaxLength(128);
+            builder.Property(e => e.LastName).IsRequired().HasMaxLength(128);
 
             builder.HasMany(e => e.VacationApplications).WithOne(v => v.Employee).HasForeignKey(v => v.EmployeeId);
         }
