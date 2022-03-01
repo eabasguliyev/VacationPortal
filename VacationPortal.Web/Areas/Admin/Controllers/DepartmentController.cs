@@ -54,6 +54,10 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             if(department.Id != 0)
             {
+                var departmentFromDb = _unitOfWork.DepartmentRepository.Find(department.Id, noTracking: true);
+                
+                department.CreatedDate = departmentFromDb.CreatedDate;
+                
                 _unitOfWork.DepartmentRepository.Update(department);
             }
             else
@@ -74,6 +78,16 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             if(department == null)
                 return NotFound();
 
+            var positions = _unitOfWork.PositionRepository.GetAll(p => p.DepartmentId == id);
+            var employees = _unitOfWork.EmployeeRepository.GetAll(e => e.DepartmentId == id);
+            
+            foreach (var employee in employees)
+            {
+                employee.DepartmentId = null;
+                employee.PositionId = null;
+            }
+
+            _unitOfWork.PositionRepository.RemoveRange(positions);
             _unitOfWork.DepartmentRepository.Remove(department);
             _unitOfWork.Save();
 

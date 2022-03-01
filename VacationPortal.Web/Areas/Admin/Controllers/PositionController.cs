@@ -63,8 +63,9 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             if(position.Id != 0)
             {
-                var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id);
-                positionFromDb.Name = position.Name;
+                var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id, noTracking: true);
+                position.CreatedDate = positionFromDb.CreatedDate;
+                _unitOfWork.PositionRepository.Update(position);
             }
             else
             {

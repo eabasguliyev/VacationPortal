@@ -25,6 +25,8 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
             builder.HasMany(d => d.Positions)
                 .WithOne(p => p.Department)
                 .HasForeignKey(p => p.DepartmentId);
+
+            builder.HasQueryFilter(d => d.ModelStatus != ModelStatus.Deleted);
         }
     }
 }
