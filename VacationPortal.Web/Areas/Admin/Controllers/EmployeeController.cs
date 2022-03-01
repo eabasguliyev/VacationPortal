@@ -87,7 +87,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(EmployeeVM employeeVM)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid && !(ModelState.ErrorCount == 1 && string.IsNullOrWhiteSpace(employeeVM.Password)))
             {
                 return View(employeeVM);
             }
@@ -103,6 +103,10 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
                 employeeFromDb.UserName = employeeFromDb.Email; // TODO: Fix Here
 
+                if (!string.IsNullOrWhiteSpace(employeeVM.Password))
+                {
+                    employeeFromDb.PasswordHash = _userManager.PasswordHasher.HashPassword(employeeFromDb, employeeVM.Password);
+                }
                 result = await _userManager.UpdateAsync(employeeFromDb);
             }
             else
@@ -157,6 +161,13 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             if(employee == null)
                 return NotFound();
+
+            // TODO: Find best solution
+            string temp = "_" + id.ToString();
+            //employee.UserName += temp;
+            employee.NormalizedUserName += temp;
+            employee.NormalizedEmail += temp;
+            //employee.Email += temp;
 
             _unitOfWork.EmployeeRepository.Remove(employee);
             _unitOfWork.Save();
