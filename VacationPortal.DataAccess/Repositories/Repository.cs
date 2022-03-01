@@ -6,10 +6,11 @@ using System.Linq.Expressions;
 using VacationPortal.DataAccess.Data;
 using VacationPortal.DataAccess.Extensions;
 using VacationPortal.DataAccess.Repositories.Abstracts;
+using VacationPortal.Models;
 
 namespace VacationPortal.DataAccess.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, IModel
     {
         private readonly ApplicationDbContext _dbContext;
         protected DbSet<T> _dbSet;
@@ -48,12 +49,17 @@ namespace VacationPortal.DataAccess.Repositories
         
         public void Remove(T entity)
         {
+            entity.ModelStatus = ModelStatus.Deleted;
             //_dbSet.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<T> entities)
         {
-            _dbSet.RemoveRange(entities);
+            foreach (var entity in entities)
+            {
+                entity.ModelStatus = ModelStatus.Deleted;
+            }
+            //_dbSet.RemoveRange(entities);
         }
     }
 }
