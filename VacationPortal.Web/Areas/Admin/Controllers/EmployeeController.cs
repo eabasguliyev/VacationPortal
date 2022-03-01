@@ -164,10 +164,8 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             // TODO: Find best solution
             string temp = "_" + id.ToString();
-            //employee.UserName += temp;
             employee.NormalizedUserName += temp;
             employee.NormalizedEmail += temp;
-            //employee.Email += temp;
 
             _unitOfWork.EmployeeRepository.Remove(employee);
             _unitOfWork.Save();
