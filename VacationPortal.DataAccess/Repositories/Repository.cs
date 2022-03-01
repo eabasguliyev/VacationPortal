@@ -27,6 +27,17 @@ namespace VacationPortal.DataAccess.Repositories
             _dbSet.Add(entity);
         }
 
+        public T Find(int id, bool noTracking = false, string includeProperties = null)
+        {
+            IQueryable<T> query = _dbSet.Where(e => e.Id == id);
+
+            query = includeProperties != null ? query.IncludeProperties(includeProperties) : query;
+
+            query = noTracking ? query.AsNoTracking() : query;
+
+            return query.FirstOrDefault();
+        }
+
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> expression = null, string includeProperties = null)
         {
             IQueryable<T> query = expression != null ? _dbSet.Where(expression) : _dbSet;
