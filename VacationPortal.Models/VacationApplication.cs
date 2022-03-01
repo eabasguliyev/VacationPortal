@@ -9,7 +9,7 @@ namespace VacationPortal.Models
         Declined
     }
 
-    public class VacationApplication
+    public class VacationApplication:IModel
     {
         public int Id { get; set; }
         public VacatioApplicationStatus Status { get; set; }

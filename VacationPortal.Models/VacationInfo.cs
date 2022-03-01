@@ -2,7 +2,7 @@
 
 namespace VacationPortal.Models
 {
-    public class VacationInfo
+    public class VacationInfo:IModel
     {
         public int Id { get; set; }
         public int Days { get; set; }

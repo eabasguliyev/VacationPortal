@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VacationPortal.Models
 {
-    public class Department
+    public class Department:IModel
     {
         public int Id { get; set; }
         public string ShortName { get; set; }
