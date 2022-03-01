@@ -161,9 +161,6 @@ namespace VacationPortal.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ModelStatus")
                         .HasColumnType("int");
 
@@ -171,8 +168,6 @@ namespace VacationPortal.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Positions");
                 });
@@ -421,17 +416,6 @@ namespace VacationPortal.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VacationPortal.Models.Position", b =>
-                {
-                    b.HasOne("VacationPortal.Models.Department", "Department")
-                        .WithMany("Positions")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("VacationPortal.Models.VacationApplication", b =>
                 {
                     b.HasOne("VacationPortal.Models.Employee", "Employee")
@@ -448,7 +432,7 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasOne("VacationPortal.Models.Position", "Position")
                         .WithMany("VacationInfos")
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Position");
@@ -480,8 +464,6 @@ namespace VacationPortal.DataAccess.Migrations
             modelBuilder.Entity("VacationPortal.Models.Department", b =>
                 {
                     b.Navigation("Employees");
-
-                    b.Navigation("Positions");
                 });
 
             modelBuilder.Entity("VacationPortal.Models.Position", b =>

@@ -10,8 +10,8 @@ using VacationPortal.DataAccess.Data;
 namespace VacationPortal.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220228203207_ChangeDeleteBehaviorsFoPositionAndDepartment2")]
-    partial class ChangeDeleteBehaviorsFoPositionAndDepartment2
+    [Migration("20220301142022_initialschema")]
+    partial class initialschema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -141,6 +141,9 @@ namespace VacationPortal.DataAccess.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<int>("ModelStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("ShortName")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -160,15 +163,13 @@ namespace VacationPortal.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("ModelStatus")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Positions");
                 });
@@ -202,6 +203,9 @@ namespace VacationPortal.DataAccess.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("ModelStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -254,6 +258,9 @@ namespace VacationPortal.DataAccess.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ModelStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -288,6 +295,9 @@ namespace VacationPortal.DataAccess.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ModelStatus")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDatetime")
                         .HasColumnType("datetime2");
 
@@ -316,6 +326,9 @@ namespace VacationPortal.DataAccess.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ModelStatus")
+                        .HasColumnType("int");
 
                     b.Property<int>("PositionId")
                         .HasColumnType("int");
@@ -405,17 +418,6 @@ namespace VacationPortal.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VacationPortal.Models.Position", b =>
-                {
-                    b.HasOne("VacationPortal.Models.Department", "Department")
-                        .WithMany("Positions")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("VacationPortal.Models.VacationApplication", b =>
                 {
                     b.HasOne("VacationPortal.Models.Employee", "Employee")
@@ -432,7 +434,7 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasOne("VacationPortal.Models.Position", "Position")
                         .WithMany("VacationInfos")
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Position");
@@ -464,8 +466,6 @@ namespace VacationPortal.DataAccess.Migrations
             modelBuilder.Entity("VacationPortal.Models.Department", b =>
                 {
                     b.Navigation("Employees");
-
-                    b.Navigation("Positions");
                 });
 
             modelBuilder.Entity("VacationPortal.Models.Position", b =>

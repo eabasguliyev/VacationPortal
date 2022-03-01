@@ -19,7 +19,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var positions = _unitOfWork.PositionRepository.GetAll(includeProperties: "Department");
+            var positions = _unitOfWork.PositionRepository.GetAll();
             return View(positions);
         }
 
@@ -85,6 +85,9 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             if(position == null)
                 return NotFound();
 
+            var employees = _unitOfWork.EmployeeRepository.GetAll(e => e.PositionId == id);
+
+            _unitOfWork.EmployeeRepository.RemoveRange(employees);
             _unitOfWork.PositionRepository.Remove(position);
             _unitOfWork.Save();
 

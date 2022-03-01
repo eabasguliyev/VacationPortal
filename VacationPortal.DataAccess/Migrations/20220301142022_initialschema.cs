@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VacationPortal.DataAccess.Migrations
 {
-    public partial class InitialSchema : Migration
+    public partial class initialschema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,6 +13,7 @@ namespace VacationPortal.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ModelStatus = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -29,6 +30,7 @@ namespace VacationPortal.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModelStatus = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -55,14 +57,30 @@ namespace VacationPortal.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ShortName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    ShortName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModelStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Positions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModelStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Positions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,33 +190,12 @@ namespace VacationPortal.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Positions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Positions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Positions_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     PositionId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -232,7 +229,8 @@ namespace VacationPortal.DataAccess.Migrations
                     Days = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PositionId = table.Column<int>(type: "int", nullable: false)
+                    PositionId = table.Column<int>(type: "int", nullable: false),
+                    ModelStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -241,8 +239,7 @@ namespace VacationPortal.DataAccess.Migrations
                         name: "FK_VacationInfos_Positions_PositionId",
                         column: x => x.PositionId,
                         principalTable: "Positions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -255,7 +252,8 @@ namespace VacationPortal.DataAccess.Migrations
                     StartDatetime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DaysOfVacation = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    ModelStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -318,11 +316,6 @@ namespace VacationPortal.DataAccess.Migrations
                 column: "PositionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Positions_DepartmentId",
-                table: "Positions",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_VacationApplications_EmployeeId",
                 table: "VacationApplications",
                 column: "EmployeeId");
@@ -366,10 +359,10 @@ namespace VacationPortal.DataAccess.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "Positions");
         }
     }
 }
