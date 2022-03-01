@@ -29,7 +29,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             if(id != null && id.HasValue)
             {
-                department = _unitOfWork.DepartmentRepository.GetFirstOrDefault(d => d.Id == id);
+                department = _unitOfWork.DepartmentRepository.Find(id.Value);
 
                 if(department == null)
                 {
@@ -69,7 +69,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var department = _unitOfWork.DepartmentRepository.GetFirstOrDefault(d => d.Id == id);
+            var department = _unitOfWork.DepartmentRepository.Find(id);
 
             if(department == null)
                 return NotFound();

@@ -31,7 +31,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             
             if(id != null && id.HasValue)
             {
-                vm.Position = _unitOfWork.PositionRepository.GetFirstOrDefault(d => d.Id == id);
+                vm.Position = _unitOfWork.PositionRepository.Find(id);
 
                 if(vm.Position == null)
                 {
@@ -63,7 +63,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             if(position.Id != 0)
             {
-                var positionFromDb = _unitOfWork.PositionRepository.GetFirstOrDefault(p => p.Id == position.Id);
+                var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id);
                 positionFromDb.Name = position.Name;
             }
             else
@@ -79,7 +79,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var position = _unitOfWork.PositionRepository.GetFirstOrDefault(d => d.Id == id);
+            var position = _unitOfWork.PositionRepository.Find(id);
 
             if(position == null)
                 return NotFound();

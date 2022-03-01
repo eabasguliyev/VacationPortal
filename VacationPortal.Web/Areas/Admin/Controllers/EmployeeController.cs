@@ -52,7 +52,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             
             if(id != null && id.HasValue)
             {
-                var employeeFromDb = _unitOfWork.EmployeeRepository.GetFirstOrDefault(d => d.Id == id);
+                var employeeFromDb = _unitOfWork.EmployeeRepository.Find(id.Value);
 
 
                 vm.EmployeeVM = _mapper.Map<EmployeeVM>(employeeFromDb);
@@ -153,7 +153,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var employee = _unitOfWork.EmployeeRepository.GetFirstOrDefault(d => d.Id == id);
+            var employee = _unitOfWork.EmployeeRepository.Find(id);
 
             if(employee == null)
                 return NotFound();
