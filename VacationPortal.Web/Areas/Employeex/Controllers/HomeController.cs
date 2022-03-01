@@ -5,7 +5,7 @@ using VacationPortal.Web.Areas.Employeex.Models;
 
 namespace VacationPortal.Web.Areas.Employeex.Controllers
 {
-    [Area("Employee")]
+    [Area("Employeex")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
@@ -6,6 +7,7 @@ using VacationPortal.Models;
 namespace VacationPortal.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles="Admin")]
     public class DepartmentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

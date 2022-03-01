@@ -15,5 +15,6 @@ namespace VacationPortal.Web.Areas.Admin.Models.EmployeeVMs
         public int? PositionId { get; set; }
         public Position Position { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

@@ -43,6 +43,12 @@ namespace VacationPortal.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication();
+
+            services.ConfigureApplicationCookie(configure =>
+            {
+                configure.LoginPath = "/Identity/Account/Login";
+                configure.LogoutPath = "/Identity/Account/Logout";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

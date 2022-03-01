@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using VacationPortal.Models;
 using VacationPortal.Web.Areas.Identity.Models;
+using VacationPortal.Web.Attributes;
 
 namespace VacationPortal.Web.Areas.Identity.Controllers
 {
     [Area("Identity")]
-    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -22,18 +22,21 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
 
 
         [HttpGet]
+        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Employeex/Home")]
         public IActionResult Index()
         {
             return RedirectToAction(nameof(Login));
         }
 
         [HttpGet]
+        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Employeex/Home")]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Employeex/Home")]
         public async Task<IActionResult> Login(LoginCredential credential)
         {
             if (!ModelState.IsValid)
@@ -53,9 +56,20 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
 
                     if (response.Succeeded)
                     {
-                        return RedirectToAction("Index", "Department", new
+                        var isAdmin = await _userManager.IsInRoleAsync(user, "ADMIN");
+                        
+
+                        if (isAdmin)
                         {
-                            area = "Admin"
+                            return RedirectToAction("Index", "Department", new
+                            {
+                                area = "Admin"
+                            });
+                        }
+                        
+                        return RedirectToAction("Index", "Home", new
+                        {
+                            area = "Employeex"
                         });
                     }
                 }
@@ -70,6 +84,14 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
             }
 
             return View(credential);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction(nameof(Login));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using VacationPortal.Web.Areas.Admin.Models.EmployeeVMs;
 namespace VacationPortal.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class EmployeeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -46,7 +48,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
 
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             var vm = new EmployeeUpsertVM();
             
@@ -57,7 +59,9 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
                 vm.EmployeeVM = _mapper.Map<EmployeeVM>(employeeFromDb);
 
-                if(vm.EmployeeVM == null || vm.EmployeeVM.Id == 0)
+                vm.EmployeeVM.IsAdmin = await _userManager.IsInRoleAsync(employeeFromDb, "admin");
+
+                if (vm.EmployeeVM == null || vm.EmployeeVM.Id == 0)
                 {
                     return NotFound();
                 }
@@ -95,23 +99,25 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             IdentityResult result = null;
 
+            Employee employee = null;
+
             if (employeeVM.Id != 0)
             {
-                var employeeFromDb = _unitOfWork.EmployeeRepository.GetFirstOrDefault(p => p.Id == employeeVM.Id);
+                employee = _unitOfWork.EmployeeRepository.GetFirstOrDefault(p => p.Id == employeeVM.Id);
 
-                _mapper.Map<EmployeeVM, Employee>(employeeVM, employeeFromDb);
+                _mapper.Map<EmployeeVM, Employee>(employeeVM, employee);
 
-                employeeFromDb.UserName = employeeFromDb.Email; // TODO: Fix Here
+                employee.UserName = employee.Email; // TODO: Fix Here
 
                 if (!string.IsNullOrWhiteSpace(employeeVM.Password))
                 {
-                    employeeFromDb.PasswordHash = _userManager.PasswordHasher.HashPassword(employeeFromDb, employeeVM.Password);
+                    employee.PasswordHash = _userManager.PasswordHasher.HashPassword(employee, employeeVM.Password);
                 }
-                result = await _userManager.UpdateAsync(employeeFromDb);
+                result = await _userManager.UpdateAsync(employee);
             }
             else
             {
-                var employee = _mapper.Map<Employee>(employeeVM);
+                employee = _mapper.Map<Employee>(employeeVM);
 
                 employee.UserName = employee.Email; // TODO: Fix Here
 
@@ -127,8 +133,30 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
                 }
             }
 
+
+
             if (result.Succeeded)
+            {
+                var role = "ADMIN";
+
+                if (employeeVM.IsAdmin)
+                {
+                    //var isIn = await _userManager.IsInRoleAsync(employee, role);
+
+                    //if (!isIn)
+                    //{
+                    //    await _userManager.AddToRoleAsync(employee, role);
+                    //}
+
+                    await _userManager.AddToRoleAsync(employee, role);
+                }
+                else
+                {
+                    await _userManager.RemoveFromRoleAsync(employee, role);
+                }
+
                 return RedirectToAction(nameof(Index));
+            }
 
             for (var i = 0; i < result.Errors.Count(); i++)
             {

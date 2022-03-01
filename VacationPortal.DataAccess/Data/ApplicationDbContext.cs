@@ -26,6 +26,14 @@ namespace VacationPortal.DataAccess.Data
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new PositionConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+
+            modelBuilder.Entity<UserRole>().HasData(new UserRole()
+            {
+                Id = 1,
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
