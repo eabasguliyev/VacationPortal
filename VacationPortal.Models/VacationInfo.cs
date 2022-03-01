@@ -10,5 +10,6 @@ namespace VacationPortal.Models
         public DateTime CreatedDate { get; set; }
         public int PositionId { get; set; }
         public Position Position { get; set; }
+        public ModelStatus ModelStatus { get; set; }
     }
 }

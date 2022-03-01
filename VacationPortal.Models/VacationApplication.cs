@@ -18,5 +18,6 @@ namespace VacationPortal.Models
         public DateTime CreatedDate { get; set; }
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
+        public ModelStatus ModelStatus { get; set; }
     }
 }

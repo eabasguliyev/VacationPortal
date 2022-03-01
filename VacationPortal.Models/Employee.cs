@@ -10,6 +10,7 @@ namespace VacationPortal.Models
         public Department Department { get; set; }
         public int? PositionId { get; set; }
         public Position Position { get; set; }
+        public ModelStatus ModelStatus { get; set; }
         public ICollection<VacationApplication> VacationApplications { get; set; }
     }
 }

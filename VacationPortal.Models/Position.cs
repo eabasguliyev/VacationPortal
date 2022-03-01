@@ -10,6 +10,7 @@ namespace VacationPortal.Models
         public DateTime CreatedDate { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
+        public ModelStatus ModelStatus { get; set; }
         public ICollection<Employee> Employees { get; set; }
         public ICollection<VacationInfo> VacationInfos { get; set; }
     }
