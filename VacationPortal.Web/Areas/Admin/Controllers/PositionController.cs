@@ -19,7 +19,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var positions = _unitOfWork.PositionRepository.GetAll();
+            var positions = _unitOfWork.PositionRepository.GetAll(includeProperties: "Department");
             return View(positions);
         }
 
