@@ -70,7 +70,7 @@ namespace VacationPortal.Web
             {
                 endpoints.MapControllerRoute(
                     name: "areas",
-                    pattern: "{area=Identity}/{controller=Account}/{action=Login}/{id?}"
+                    pattern: "{area=Identity}/{controller=Account}/{action=Index}/{id?}"
                   );
             });
         }

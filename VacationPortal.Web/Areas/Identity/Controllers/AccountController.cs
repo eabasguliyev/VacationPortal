@@ -19,6 +19,14 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return RedirectToAction(nameof(Login));
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
