@@ -31,7 +31,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             
             if(id != null && id.HasValue)
             {
-                vm.Position = _unitOfWork.PositionRepository.Find(id);
+                vm.Position = _unitOfWork.PositionRepository.Find(id.Value);
 
                 if(vm.Position == null)
                 {
