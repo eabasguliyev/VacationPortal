@@ -22,10 +22,6 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
                 .HasForeignKey(e => e.DepartmentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(d => d.Positions)
-                .WithOne(p => p.Department)
-                .HasForeignKey(p => p.DepartmentId);
-
             builder.HasQueryFilter(d => d.ModelStatus != ModelStatus.Deleted);
         }
     }
