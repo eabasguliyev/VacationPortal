@@ -39,6 +39,7 @@ namespace VacationPortal.Web
             services.AddTransient<IValidator<Department>, DepartmentValidation>();
             services.AddTransient<IValidator<Position>, PositionValidation>();
             services.AddTransient<IValidator<EmployeeVM>, EmployeeValidation>();
+            services.AddTransient<IValidator<VacationApplication>, VacationApplicationValidation>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                                 options.UseSqlServer(Configuration.GetConnectionString("Local")));

@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create">New vacation application</a>
+</p>
+<table id="tblData" class="table table-bordered table-striped" style="width: 100%">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                Days of Vacation
+            </th>
+            <th>
+                Status
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="~/js/employeevacationapp.js"></script>
+}

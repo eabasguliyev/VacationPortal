@@ -2,7 +2,7 @@
 
 namespace VacationPortal.Models
 {
-    public enum VacatioApplicationStatus
+    public enum VacationApplicationStatus
     {
         Pending,
         Approved,
@@ -12,7 +12,7 @@ namespace VacationPortal.Models
     public class VacationApplication:IModel
     {
         public int Id { get; set; }
-        public VacatioApplicationStatus Status { get; set; }
+        public VacationApplicationStatus Status { get; set; }
         public DateTime StartDatetime { get; set; }
         public int DaysOfVacation { get; set; }
         public DateTime CreatedDate { get; set; }
