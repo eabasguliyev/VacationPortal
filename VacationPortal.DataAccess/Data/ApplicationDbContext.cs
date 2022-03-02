@@ -30,8 +30,8 @@ namespace VacationPortal.DataAccess.Data
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new IdentityUserRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new VacationInfoConfiguration());
 
-            
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -60,7 +60,15 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(position);
+                var vm = new PositionUpsertVM();
+                vm.Position = position;
+
+                vm.Departments = _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
+                {
+                    Text = d.FullName,
+                    Value = d.Id.ToString(),
+                });
+                return View(vm);
             }
 
             if(position.Id != 0)
@@ -88,8 +96,10 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
                 return NotFound();
 
             var employees = _unitOfWork.EmployeeRepository.GetAll(e => e.PositionId == id);
+            var vacationInfos = _unitOfWork.VacationInfoRepository.GetAll(vi => vi.PositionId == id);
 
             _unitOfWork.EmployeeRepository.RemoveRange(employees);
+            _unitOfWork.VacationInfoRepository.RemoveRange(vacationInfos);
             _unitOfWork.PositionRepository.Remove(position);
             _unitOfWork.Save();
 

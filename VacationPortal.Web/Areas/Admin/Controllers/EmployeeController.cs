@@ -91,72 +91,64 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(EmployeeVM employeeVM)
         {
-            if (!ModelState.IsValid && !(ModelState.ErrorCount == 1 && string.IsNullOrWhiteSpace(employeeVM.Password)))
-            {
-                return View(employeeVM);
-            }
-
-
             IdentityResult result = null;
 
             Employee employee = null;
 
-            if (employeeVM.Id != 0)
+            if (ModelState.IsValid || (ModelState.ErrorCount == 1 && string.IsNullOrWhiteSpace(employeeVM.Password)))
             {
-                employee = _unitOfWork.EmployeeRepository.GetFirstOrDefault(p => p.Id == employeeVM.Id);
 
-                _mapper.Map<EmployeeVM, Employee>(employeeVM, employee);
-
-                employee.UserName = employee.Email; // TODO: Fix Here
-
-                if (!string.IsNullOrWhiteSpace(employeeVM.Password))
+                if (employeeVM.Id != 0)
                 {
-                    employee.PasswordHash = _userManager.PasswordHasher.HashPassword(employee, employeeVM.Password);
-                }
-                result = await _userManager.UpdateAsync(employee);
-            }
-            else
-            {
-                employee = _mapper.Map<Employee>(employeeVM);
+                    employee = _unitOfWork.EmployeeRepository.GetFirstOrDefault(p => p.Id == employeeVM.Id);
 
-                employee.UserName = employee.Email; // TODO: Fix Here
+                    _mapper.Map<EmployeeVM, Employee>(employeeVM, employee);
 
-                employee.CreatedDate = DateTime.Now;
+                    employee.UserName = employee.Email; // TODO: Fix Here
 
-                if(employee != null)
-                {
-                    result = await _userManager.CreateAsync(employee, employeeVM.Password);
+                    if (!string.IsNullOrWhiteSpace(employeeVM.Password))
+                    {
+                        employee.PasswordHash = _userManager.PasswordHasher.HashPassword(employee, employeeVM.Password);
+                    }
+                    result = await _userManager.UpdateAsync(employee);
                 }
                 else
                 {
-                    return Problem(statusCode: 404);
+                    employee = _mapper.Map<Employee>(employeeVM);
+
+                    employee.UserName = employee.Email; // TODO: Fix Here
+
+                    employee.CreatedDate = DateTime.Now;
+
+                    if (employee != null)
+                    {
+                        result = await _userManager.CreateAsync(employee, employeeVM.Password);
+                    }
+                    else
+                    {
+                        return Problem(statusCode: 404);
+                    }
+                }
+
+
+
+                if (result.Succeeded)
+                {
+                    var role = "ADMIN";
+
+                    if (employeeVM.IsAdmin)
+                    {
+                        await _userManager.AddToRoleAsync(employee, role);
+                    }
+                    else
+                    {
+                        await _userManager.RemoveFromRoleAsync(employee, role);
+                    }
+
+                    return RedirectToAction(nameof(Index));
                 }
             }
 
-
-
-            if (result.Succeeded)
-            {
-                var role = "ADMIN";
-
-                if (employeeVM.IsAdmin)
-                {
-                    //var isIn = await _userManager.IsInRoleAsync(employee, role);
-
-                    //if (!isIn)
-                    //{
-                    //    await _userManager.AddToRoleAsync(employee, role);
-                    //}
-
-                    await _userManager.AddToRoleAsync(employee, role);
-                }
-                else
-                {
-                    await _userManager.RemoveFromRoleAsync(employee, role);
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
 
             for (var i = 0; i < result.Errors.Count(); i++)
             {
