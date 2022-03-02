@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,8 @@ using VacationPortal.DataAccess.Repositories;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
 using VacationPortal.Web.Areas.Admin.Models.EmployeeVMs;
+using VacationPortal.Web.AuthService.Handlers;
+using VacationPortal.Web.AuthService.Requirements;
 using VacationPortal.Web.Validations;
 
 namespace VacationPortal.Web
@@ -43,7 +46,14 @@ namespace VacationPortal.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication();
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("HrDepartment", options =>
+                {
+                    options.AddRequirements(new DepartmentRequirement("HR"));
+                });
+            });
+            services.AddScoped<IAuthorizationHandler, DepartmentHandler>();
             services.ConfigureApplicationCookie(configure =>
             {
                 configure.LoginPath = "/Identity/Account/Login";
