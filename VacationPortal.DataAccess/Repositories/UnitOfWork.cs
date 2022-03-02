@@ -14,6 +14,8 @@ namespace VacationPortal.DataAccess.Repositories
         public IEmployeeRepository EmployeeRepository { get; private set; }
 
         public IVacationInfoRepository VacationInfoRepository { get; private set; }
+        public IVacationApplicationRepository VacationApplicationRepository { get; private set; }
+
 
         public UnitOfWork(ApplicationDbContext dbContext)
         {
@@ -23,6 +25,7 @@ namespace VacationPortal.DataAccess.Repositories
             PositionRepository = new PositionRepository(_dbContext);
             EmployeeRepository = new EmployeeRepository(_dbContext);
             VacationInfoRepository = new VacationInfoRepository(_dbContext);
+            VacationApplicationRepository = new VacationApplicationRepository(_dbContext);
         }
 
         public void Save()

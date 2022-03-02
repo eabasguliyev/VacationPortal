@@ -6,6 +6,7 @@
         IPositionRepository PositionRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IVacationInfoRepository VacationInfoRepository { get; }
+        IVacationApplicationRepository VacationApplicationRepository { get; }
 
         void Save();
     }
