@@ -14,6 +14,7 @@ namespace VacationPortal.DataAccess.Data
         public DbSet<VacationApplication> VacationApplications { get; set; }
         public DbSet<VacationInfo> VacationInfos { get; set; }
         public DbSet<User> Users2 { get; set; }
+        //public DbSet<IdentityUserRole<int>> IdentityUserRoles { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
@@ -28,6 +29,7 @@ namespace VacationPortal.DataAccess.Data
             modelBuilder.ApplyConfiguration(new PositionConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new IdentityUserRoleConfiguration());
 
             
             base.OnModelCreating(modelBuilder);

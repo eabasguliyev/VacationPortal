@@ -10,7 +10,7 @@ using VacationPortal.DataAccess.Data;
 namespace VacationPortal.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220302111432_initialSchemaAndSeedData")]
+    [Migration("20220302112705_initialSchemaAndSeedData")]
     partial class initialSchemaAndSeedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,6 +101,13 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -156,7 +163,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 276, DateTimeKind.Local).AddTicks(7165),
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 528, DateTimeKind.Local).AddTicks(7705),
                             FullName = "Human Resource",
                             ModelStatus = 0,
                             ShortName = "HR"
@@ -164,7 +171,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 278, DateTimeKind.Local).AddTicks(9680),
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 530, DateTimeKind.Local).AddTicks(9911),
                             FullName = "Information Technology",
                             ModelStatus = 0,
                             ShortName = "IT"
@@ -195,21 +202,21 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 298, DateTimeKind.Local).AddTicks(6189),
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(1777),
                             ModelStatus = 0,
                             Name = "Assistant"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 298, DateTimeKind.Local).AddTicks(6571),
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(2210),
                             ModelStatus = 0,
                             Name = "Manager"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 298, DateTimeKind.Local).AddTicks(6579),
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(2218),
                             ModelStatus = 0,
                             Name = "Director"
                         });
@@ -323,7 +330,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b0d2fec9-36be-4d98-8b48-47d82f7b37fb",
+                            ConcurrencyStamp = "8534ab93-a287-4b28-a605-c36d4ed32226",
                             ModelStatus = 0,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -422,16 +429,17 @@ namespace VacationPortal.DataAccess.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0eb939e0-f237-4fc2-88bc-9909d08474dc",
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 281, DateTimeKind.Local).AddTicks(5019),
+                            ConcurrencyStamp = "0e44d94f-2603-4a82-ba13-0efbbef486ea",
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 533, DateTimeKind.Local).AddTicks(8317),
                             Email = "elgun@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             ModelStatus = 0,
                             NormalizedEmail = "ELGUN@GMAIL.COM",
                             NormalizedUserName = "ELGUN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAr52guEzFWv1YoA80k8ly6aX+b/HUeHBuvGe4Jlb+xgesr/NK6g2vfeRJJWmo9RHA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHvglz+0/22bnN+XQTGueerQrrXzWaDq2iiqBLYEZmqYcVB7KRbVjJUYAa+R6z1PkA==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "55abcbd4-e95b-4a30-a3b3-00e07d4665c8",
                             TwoFactorEnabled = false,
                             UserName = "elgun@gmail.com",
                             DepartmentId = 2,
@@ -443,16 +451,17 @@ namespace VacationPortal.DataAccess.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a2a2f326-6e57-4f8f-a39a-f5c4fc6f559c",
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 14, 31, 290, DateTimeKind.Local).AddTicks(6807),
+                            ConcurrencyStamp = "16943208-6016-4c58-bbab-494dd1f78680",
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 543, DateTimeKind.Local).AddTicks(8027),
                             Email = "senan@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             ModelStatus = 0,
                             NormalizedEmail = "SENAN@GMAIL.COM",
                             NormalizedUserName = "SENAN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN/MBqhUGm9er9Rhl5WqykrrK+f4JKxsS8ETwBXXGInu3CuEHbOn3GXZpCe3wSJyeQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGhdJURuCVnfogkWJ7ZzGcrgZcV/IOl6fogS3o0ToSHsmI9h6E4mwU1/a2gG88FWrg==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "76439d7d-10b5-4d46-876c-301a6bc9e18a",
                             TwoFactorEnabled = false,
                             UserName = "senan@gmail.com",
                             DepartmentId = 1,

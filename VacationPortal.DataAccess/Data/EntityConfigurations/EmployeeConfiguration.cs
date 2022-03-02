@@ -34,6 +34,7 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
                 PositionId = 2,
                 DepartmentId = 2,
                 CreatedDate = DateTime.Now,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
 
             employee1.PasswordHash = ph.HashPassword(employee1, "Elgun1234!");
@@ -50,6 +51,7 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
                 PositionId = 2,
                 DepartmentId = 1,
                 CreatedDate = DateTime.Now,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
 
             employee2.PasswordHash = ph.HashPassword(employee2, "Senan1234!");
