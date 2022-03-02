@@ -10,11 +10,15 @@ using VacationPortal.Models;
 
 namespace VacationPortal.DataAccess.Data.EntityConfigurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class IdentityUserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<int>>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserRole<int>> builder)
         {
-            builder.HasQueryFilter(u => u.ModelStatus != ModelStatus.Deleted);
+            builder.HasData(new IdentityUserRole<int>()
+            {
+                RoleId = 1,
+                UserId = 1
+            });
         }
     }
 }

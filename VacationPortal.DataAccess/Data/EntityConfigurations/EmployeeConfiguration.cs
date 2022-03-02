@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,41 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
             builder.Property(e => e.LastName).IsRequired().HasMaxLength(128);
 
             builder.HasMany(e => e.VacationApplications).WithOne(v => v.Employee).HasForeignKey(v => v.EmployeeId);
+
+            var ph = new PasswordHasher<User>();
+
+            var employee1 = new Employee()
+            {
+                Id = 1,
+                FirstName = "Elgun",
+                LastName = "Abasquliyev",
+                Email = "elgun@gmail.com",
+                UserName = "elgun@gmail.com",
+                NormalizedUserName = "ELGUN@GMAIL.COM",
+                PositionId = 2,
+                DepartmentId = 2,
+                CreatedDate = DateTime.Now,
+            };
+
+            employee1.PasswordHash = ph.HashPassword(employee1, "Elgun1234!");
+
+            var employee2 = new Employee()
+            {
+                Id = 2,
+                FirstName = "Senan",
+                LastName = "Memmedov",
+                Email = "senan@gmail.com",
+                UserName = "senan@gmail.com",
+                NormalizedUserName = "SENAN@GMAIL.COM",
+                PositionId = 2,
+                DepartmentId = 1,
+                CreatedDate = DateTime.Now,
+            };
+
+            employee2.PasswordHash = ph.HashPassword(employee2, "Senan1234!");
+
+            builder.HasData(employee1);
+            builder.HasData(employee2);
         }
     }
 }

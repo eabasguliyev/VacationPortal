@@ -23,6 +23,22 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasQueryFilter(d => d.ModelStatus != ModelStatus.Deleted);
+
+            builder.HasData(new Department()
+            {
+                Id = 1,
+                ShortName = "HR",
+                FullName = "Human Resource",
+                CreatedDate = DateTime.Now,
+            });
+
+            builder.HasData(new Department()
+            {
+                Id = 2,
+                ShortName = "IT",
+                FullName = "Information Technology",
+                CreatedDate = DateTime.Now,
+            });
         }
     }
 }

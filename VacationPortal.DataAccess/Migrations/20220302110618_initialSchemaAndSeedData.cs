@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VacationPortal.DataAccess.Migrations
 {
-    public partial class initialschema : Migration
+    public partial class initialSchemaAndSeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -265,6 +265,49 @@ namespace VacationPortal.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "ModelStatus", "Name", "NormalizedName" },
+                values: new object[] { 1, "5427157f-fa8c-4446-8b69-64cd6ef47ef1", 0, "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModelStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { 1, 0, "54d4e04b-43ba-4985-b9d9-55b0d425c81a", new DateTime(2022, 3, 2, 15, 6, 17, 573, DateTimeKind.Local).AddTicks(330), "elgun@gmail.com", false, false, null, 0, null, "ELGUN@GMAIL.COM", "AQAAAAEAACcQAAAAEPwGfVqFXcPkQRo4CjxwdpauOSKH0P//iJG6BRICARTIaWnkfW2xk+M1wNChRNlCiw==", null, false, null, false, "elgun@gmail.com" },
+                    { 2, 0, "9f71f794-0211-4420-9b30-3d659586b392", new DateTime(2022, 3, 2, 15, 6, 17, 581, DateTimeKind.Local).AddTicks(8086), "senan@gmail.com", false, false, null, 0, null, "SENAN@GMAIL.COM", "AQAAAAEAACcQAAAAENamtKzsmcp3YJe8+z7MSS+PvY0HCPhJIKC8HmBpeAaxrVOhxUzwVDORaj+Yolm4zA==", null, false, null, false, "senan@gmail.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "Id", "CreatedDate", "Description", "FullName", "ModelStatus", "ShortName" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 3, 2, 15, 6, 17, 567, DateTimeKind.Local).AddTicks(9613), null, "Human Resource", 0, "HR" },
+                    { 2, new DateTime(2022, 3, 2, 15, 6, 17, 570, DateTimeKind.Local).AddTicks(1989), null, "Information Technology", 0, "IT" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Positions",
+                columns: new[] { "Id", "CreatedDate", "ModelStatus", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 3, 2, 15, 6, 17, 592, DateTimeKind.Local).AddTicks(1415), 0, "Assistant" },
+                    { 2, new DateTime(2022, 3, 2, 15, 6, 17, 592, DateTimeKind.Local).AddTicks(1932), 0, "Manager" },
+                    { 3, new DateTime(2022, 3, 2, 15, 6, 17, 592, DateTimeKind.Local).AddTicks(1940), 0, "Director" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "DepartmentId", "FirstName", "LastName", "PositionId" },
+                values: new object[] { 1, 2, "Elgun", "Abasquliyev", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "DepartmentId", "FirstName", "LastName", "PositionId" },
+                values: new object[] { 2, 1, "Senan", "Memmedov", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

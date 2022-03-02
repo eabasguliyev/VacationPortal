@@ -24,6 +24,27 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasQueryFilter(p => p.ModelStatus != ModelStatus.Deleted);
+
+            builder.HasData(new Position()
+            {
+                Id = 1,
+                Name = "Assistant",
+                CreatedDate = DateTime.Now,
+            });
+
+            builder.HasData(new Position()
+            {
+                Id = 2,
+                Name = "Manager",
+                CreatedDate = DateTime.Now,
+            });
+
+            builder.HasData(new Position()
+            {
+                Id = 3,
+                Name = "Director",
+                CreatedDate = DateTime.Now,
+            });
         }
     }
 }

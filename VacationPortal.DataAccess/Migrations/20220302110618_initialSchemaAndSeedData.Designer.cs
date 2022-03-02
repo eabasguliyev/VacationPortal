@@ -10,8 +10,8 @@ using VacationPortal.DataAccess.Data;
 namespace VacationPortal.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220301195152_seedData")]
-    partial class seedData
+    [Migration("20220302110618_initialSchemaAndSeedData")]
+    partial class initialSchemaAndSeedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,6 +151,24 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 567, DateTimeKind.Local).AddTicks(9613),
+                            FullName = "Human Resource",
+                            ModelStatus = 0,
+                            ShortName = "HR"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 570, DateTimeKind.Local).AddTicks(1989),
+                            FullName = "Information Technology",
+                            ModelStatus = 0,
+                            ShortName = "IT"
+                        });
                 });
 
             modelBuilder.Entity("VacationPortal.Models.Position", b =>
@@ -172,6 +190,29 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 592, DateTimeKind.Local).AddTicks(1415),
+                            ModelStatus = 0,
+                            Name = "Assistant"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 592, DateTimeKind.Local).AddTicks(1932),
+                            ModelStatus = 0,
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 592, DateTimeKind.Local).AddTicks(1940),
+                            ModelStatus = 0,
+                            Name = "Director"
+                        });
                 });
 
             modelBuilder.Entity("VacationPortal.Models.User", b =>
@@ -282,7 +323,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "242aae85-00d9-4faf-be66-dd0cbd7edc58",
+                            ConcurrencyStamp = "5427157f-fa8c-4446-8b69-64cd6ef47ef1",
                             ModelStatus = 0,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -375,6 +416,48 @@ namespace VacationPortal.DataAccess.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "54d4e04b-43ba-4985-b9d9-55b0d425c81a",
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 573, DateTimeKind.Local).AddTicks(330),
+                            Email = "elgun@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            ModelStatus = 0,
+                            NormalizedUserName = "ELGUN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPwGfVqFXcPkQRo4CjxwdpauOSKH0P//iJG6BRICARTIaWnkfW2xk+M1wNChRNlCiw==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "elgun@gmail.com",
+                            DepartmentId = 2,
+                            FirstName = "Elgun",
+                            LastName = "Abasquliyev",
+                            PositionId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9f71f794-0211-4420-9b30-3d659586b392",
+                            CreatedDate = new DateTime(2022, 3, 2, 15, 6, 17, 581, DateTimeKind.Local).AddTicks(8086),
+                            Email = "senan@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            ModelStatus = 0,
+                            NormalizedUserName = "SENAN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAENamtKzsmcp3YJe8+z7MSS+PvY0HCPhJIKC8HmBpeAaxrVOhxUzwVDORaj+Yolm4zA==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "senan@gmail.com",
+                            DepartmentId = 1,
+                            FirstName = "Senan",
+                            LastName = "Memmedov",
+                            PositionId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
