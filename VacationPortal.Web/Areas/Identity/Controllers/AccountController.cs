@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using VacationPortal.Models;
 using VacationPortal.Web.Areas.Identity.Models;
-using VacationPortal.Web.Attributes;
+using VacationPortal.Web.Filters;
 
 namespace VacationPortal.Web.Areas.Identity.Controllers
 {
@@ -22,21 +22,21 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
 
 
         [HttpGet]
-        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Client/Home")]
+        [AnonymousOnly]
         public IActionResult Index()
         {
             return RedirectToAction(nameof(Login));
         }
 
         [HttpGet]
-        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Client/Home")]
+        [AnonymousOnly]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Client/Home")]
+        [AnonymousOnly]
         public async Task<IActionResult> Login(LoginCredential credential)
         {
             if (!ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
                         
                         return RedirectToAction("Index", "Home", new
                         {
-                            area = "Employeex"
+                            area = "Client"
                         });
                     }
                 }
