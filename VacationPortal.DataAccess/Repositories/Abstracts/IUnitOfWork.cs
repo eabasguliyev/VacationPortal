@@ -5,6 +5,7 @@
         IDepartmentRepository DepartmentRepository { get; }
         IPositionRepository PositionRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
+        IVacationInfoRepository VacationInfoRepository { get; }
 
         void Save();
     }
