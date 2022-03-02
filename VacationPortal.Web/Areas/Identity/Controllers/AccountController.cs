@@ -22,21 +22,21 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
 
 
         [HttpGet]
-        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Employeex/Home")]
+        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Client/Home")]
         public IActionResult Index()
         {
             return RedirectToAction(nameof(Login));
         }
 
         [HttpGet]
-        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Employeex/Home")]
+        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Client/Home")]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Employeex/Home")]
+        [AnonymousOnly(Role = "Admin", Url1 = "/Admin/Employee", Url2 = "/Client/Home")]
         public async Task<IActionResult> Login(LoginCredential credential)
         {
             if (!ModelState.IsValid)

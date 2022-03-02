@@ -3,6 +3,7 @@ using VacationPortal.DataAccess.Repositories.Abstracts;
 
 namespace VacationPortal.Web.Areas.Client.Controllers
 {
+    [Area("Client")]
     public class VacationInfoController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -11,9 +12,11 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
-            return View();
+            var vacationInfos = _unitOfWork.VacationInfoRepository.GetAll(includeProperties: "Position");
+            return View(vacationInfos);
         }
     }
 }
