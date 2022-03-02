@@ -64,15 +64,12 @@ namespace VacationPortal.Web.Areas.Client.Controllers
 
             IEnumerable<VacationApplication> result = null;
 
-            if (!String.IsNullOrWhiteSpace(status))
-            {
-                result = _unitOfWork.VacationApplicationRepository.GetAll(va => va.EmployeeId == _employeeId &&
-                                                                            va.Status == vacationStatus);
-            }
-            else
-            {
-                result = _unitOfWork.VacationApplicationRepository.GetAll(va => va.EmployeeId == _employeeId);
-            }
+            var statusIsEmpty = string.IsNullOrWhiteSpace(status);
+
+            var expression = 
+                GetExpressionByCondition(statusIsEmpty, _employeeId, vacationStatus);
+
+            result = _unitOfWork.VacationApplicationRepository.GetAll(expression);
 
             var vacationApplications = result.Select(va => new
                     {
@@ -83,6 +80,17 @@ namespace VacationPortal.Web.Areas.Client.Controllers
                     });
 
             return Json(new { data = vacationApplications });
+        }
+
+        private Expression<Func<VacationApplication, bool>> GetExpressionByCondition(bool status, 
+            int employeeId, VacationApplicationStatus vacationStatus)
+        {
+            Dictionary<bool, Expression<Func<VacationApplication, bool>>> expressionPairs = 
+                new Dictionary<bool, Expression<Func<VacationApplication, bool>>>();
+            expressionPairs.Add(false, va => va.EmployeeId == employeeId && va.Status == vacationStatus);
+            expressionPairs.Add(true, va => va.EmployeeId == employeeId);
+
+            return expressionPairs[status];
         }
         #endregion
     }
