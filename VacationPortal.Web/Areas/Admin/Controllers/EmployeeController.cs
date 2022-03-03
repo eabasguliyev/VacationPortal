@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
@@ -19,8 +21,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        //[BindProperty]
-        //public EmployeeUpsertVM UpsertVM { get; set; }
+
         public EmployeeController(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -46,50 +47,21 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             return View(employees);
         }
 
-
         [HttpGet]
-        public async Task<IActionResult> Upsert(int? id)
+        public IActionResult Create()
         {
-            var vm = new EmployeeUpsertVM();
-            
-            if(id != null && id.HasValue)
-            {
-                var employeeFromDb = _unitOfWork.EmployeeRepository.Find(id.Value);
+            var vm = new EmployeeCreateVM();
 
-
-                vm.EmployeeVM = _mapper.Map<EmployeeVM>(employeeFromDb);
-
-                vm.EmployeeVM.IsAdmin = await _userManager.IsInRoleAsync(employeeFromDb, "admin");
-
-                if (vm.EmployeeVM == null || vm.EmployeeVM.Id == 0)
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                vm.EmployeeVM = new EmployeeVM();
-            }
-
-            // TODO: DRY
-            vm.Departments = _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
-            {
-                Text = d.FullName,
-                Value = d.Id.ToString(),
-            });
-
-            vm.Positions = _unitOfWork.PositionRepository.GetAll().Select(p => new SelectListItem()
-            {
-                Text = p.Name,
-                Value = p.Id.ToString(),
-            });
+            vm.EmployeeVM = new EmployeeVM();
+            vm.Departments = GetDepartmentListItems();
+            vm.Positions = GetPositionListItems();
 
             return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(EmployeeVM employeeVM)
+        public async Task<IActionResult> Create(EmployeeVM employeeVM)
         {
             IdentityResult result = null;
 
@@ -98,38 +70,20 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             if (ModelState.IsValid || (ModelState.ErrorCount == 1 && string.IsNullOrWhiteSpace(employeeVM.Password)))
             {
 
-                if (employeeVM.Id != 0)
+                employee = _mapper.Map<Employee>(employeeVM);
+
+                employee.UserName = employee.Email; // TODO: Fix Here
+
+                employee.CreatedDate = DateTime.Now;
+
+                if (employee != null)
                 {
-                    employee = _unitOfWork.EmployeeRepository.GetFirstOrDefault(p => p.Id == employeeVM.Id);
-
-                    _mapper.Map<EmployeeVM, Employee>(employeeVM, employee);
-
-                    employee.UserName = employee.Email; // TODO: Fix Here
-
-                    if (!string.IsNullOrWhiteSpace(employeeVM.Password))
-                    {
-                        employee.PasswordHash = _userManager.PasswordHasher.HashPassword(employee, employeeVM.Password);
-                    }
-                    result = await _userManager.UpdateAsync(employee);
+                    result = await _userManager.CreateAsync(employee, employeeVM.Password);
                 }
                 else
                 {
-                    employee = _mapper.Map<Employee>(employeeVM);
-
-                    employee.UserName = employee.Email; // TODO: Fix Here
-
-                    employee.CreatedDate = DateTime.Now;
-
-                    if (employee != null)
-                    {
-                        result = await _userManager.CreateAsync(employee, employeeVM.Password);
-                    }
-                    else
-                    {
-                        return Problem(statusCode: 404);
-                    }
+                    return Problem(statusCode: 404);
                 }
-
 
 
                 if (result.Succeeded)
@@ -152,26 +106,114 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             for (var i = 0; i < result.Errors.Count(); i++)
             {
-                ModelState.AddModelError("Error" + i, result.Errors.ElementAt(i).Description);
+                ModelState.AddModelError($"{i + 1}.Error", result.Errors.ElementAt(i).Description);
             }
 
-            var vm = new EmployeeUpsertVM();
+            var vm = new EmployeeCreateVM();
 
             vm.EmployeeVM = employeeVM;
+            vm.Departments = GetDepartmentListItems();
+            vm.Positions = GetPositionListItems();
 
-            vm.Departments = _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var vm = new EmployeeUpdateVM();
+
+            var employeeFromDb = _unitOfWork.EmployeeRepository.Find(id);
+
+
+            vm.EmployeeVM = _mapper.Map<EmployeeVM>(employeeFromDb);
+
+            vm.EmployeeVM.IsAdmin = await _userManager.IsInRoleAsync(employeeFromDb, "admin");
+
+            if (vm.EmployeeVM == null || vm.EmployeeVM.Id == 0)
+            {
+                return NotFound();
+            }
+
+            vm.Departments = GetDepartmentListItems();
+
+            vm.Positions = GetPositionListItems();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(EmployeeVM employeeVM)
+        {
+            IdentityResult result = null;
+
+            Employee employee = null;
+
+            if (ModelState.IsValid || (ModelState.ErrorCount == 1 && string.IsNullOrWhiteSpace(employeeVM.Password)))
+            {
+
+                employee = _unitOfWork.EmployeeRepository.GetFirstOrDefault(p => p.Id == employeeVM.Id);
+
+                _mapper.Map(employeeVM, employee);
+
+                employee.UserName = employee.Email; // TODO: Fix Here
+
+                if (!string.IsNullOrWhiteSpace(employeeVM.Password))
+                {
+                    employee.PasswordHash = _userManager.PasswordHasher.HashPassword(employee, employeeVM.Password);
+                }
+
+                result = await _userManager.UpdateAsync(employee);
+
+                if (result.Succeeded)
+                {
+                    var role = "ADMIN";
+
+                    if (employeeVM.IsAdmin)
+                    {
+                        await _userManager.AddToRoleAsync(employee, role);
+                    }
+                    else
+                    {
+                        await _userManager.RemoveFromRoleAsync(employee, role);
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+
+            for (var i = 0; i < result.Errors.Count(); i++)
+            {
+                ModelState.AddModelError($"{i}. Error", result.Errors.ElementAt(i).Description);
+            }
+
+            var vm = new EmployeeCreateVM();
+
+            vm.EmployeeVM = employeeVM;
+            vm.Departments = GetDepartmentListItems();
+            vm.Positions = GetPositionListItems();
+
+            return View(vm);
+        }
+
+        private IEnumerable<SelectListItem> GetDepartmentListItems()
+        {
+            return _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
             {
                 Text = d.FullName,
                 Value = d.Id.ToString(),
             });
+        }
 
-            vm.Positions = _unitOfWork.PositionRepository.GetAll().Select(p => new SelectListItem()
+        private IEnumerable<SelectListItem> GetPositionListItems()
+        {
+            return _unitOfWork.PositionRepository.GetAll().Select(d => new SelectListItem()
             {
-                Text = p.Name,
-                Value = p.Id.ToString(),
+                Text = d.Name,
+                Value = d.Id.ToString(),
             });
-
-            return View(vm);
         }
 
         [HttpGet]
@@ -189,6 +231,14 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
             _unitOfWork.EmployeeRepository.Remove(employee);
             _unitOfWork.Save();
+
+            var employeeId = int.Parse(
+                                    HttpContext.User.Claims.FirstOrDefault(c =>
+                                    c.Type == ClaimTypes.NameIdentifier).Value);
+
+            if (employeeId == id)
+                return RedirectToAction("Logout", "Account", new { area = "Identity" });
+
 
             return RedirectToAction(nameof(Index));
         }

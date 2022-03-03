@@ -1,14 +1,14 @@
-﻿@model VacationPortal.Web.Areas.Admin.Models.EmployeeVMs.EmployeeUpsertVM
+﻿@model VacationPortal.Web.Areas.Admin.Models.EmployeeVMs.EmployeeCreateVM
 
 @{
-    ViewData["Title"] = "Upsert";
+    ViewData["Title"] = "Create";
 }
 
-<h1>@(Model.EmployeeVM.Id != 0 ? "Update" : "Create") Employee</h1>
+<h1>Create Employee</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" asp-action="Upsert">
+        <form method="post" asp-action="Create">
             <input asp-for="EmployeeVM.Id" hidden/>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -51,15 +51,9 @@
                   Is Admin
               </label>
             </div>
-            @if(Model.EmployeeVM.Id != 0){
-                <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-primary" />
-                </div>
-            }else{
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 </div>

@@ -4,7 +4,7 @@ using VacationPortal.Models;
 
 namespace VacationPortal.Web.Areas.Admin.Models.EmployeeVMs
 {
-    public class EmployeeUpsertVM
+    public class EmployeeCreateVM
     {
         public EmployeeVM EmployeeVM { get; set; }
         public IEnumerable<SelectListItem> Departments { get; set; }

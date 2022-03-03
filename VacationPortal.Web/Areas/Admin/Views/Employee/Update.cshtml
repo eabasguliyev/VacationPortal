@@ -1,0 +1,67 @@
+﻿@model VacationPortal.Web.Areas.Admin.Models.EmployeeVMs.EmployeeUpdateVM
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update Employee</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="Update">
+            <input asp-for="EmployeeVM.Id" hidden/>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeVM.Email" class="control-label"></label>
+                <input asp-for="EmployeeVM.Email" type="email" class="form-control" />
+                <span asp-validation-for="EmployeeVM.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeVM.Password" class="control-label"></label>
+                <input asp-for="EmployeeVM.Password" type="password" class="form-control" data-val="false"/>
+                <span asp-validation-for="EmployeeVM.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeVM.FirstName" class="control-label"></label>
+                <input asp-for="EmployeeVM.FirstName" class="form-control" />
+                <span asp-validation-for="EmployeeVM.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeVM.LastName" class="control-label"></label>
+                <input asp-for="EmployeeVM.LastName" class="form-control" />
+                <span asp-validation-for="EmployeeVM.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeVM.DepartmentId" class="control-label"></label>
+                <select asp-for="EmployeeVM.DepartmentId" asp-items="Model.Departments" class="form-control">
+                    <option disabled selected>Select Department</option>
+                </select>
+                <span asp-validation-for="EmployeeVM.DepartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeVM.PositionId" class="control-label"></label>
+                 <select asp-for="EmployeeVM.PositionId" asp-items="Model.Positions" class="form-control">
+                    <option disabled selected>Select Position</option>
+                </select>
+                <span asp-validation-for="EmployeeVM.PositionId" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-2">
+              <input asp-for="EmployeeVM.IsAdmin" class="form-check-input" type="checkbox">
+              <label asp-for="EmployeeVM.IsAdmin" class="form-check-label" >
+                  Is Admin
+              </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
