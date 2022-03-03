@@ -4,7 +4,7 @@ using VacationPortal.Models;
 
 namespace VacationPortal.Web.Areas.Admin.Models.PositionVMs
 {
-    public class PositionUpsertVM
+    public class PositionUpdateVM
     {
         public Position Position { get; set; }
         public IEnumerable<SelectListItem> Departments { get; set; }

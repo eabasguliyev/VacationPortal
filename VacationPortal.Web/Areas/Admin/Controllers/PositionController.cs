@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
@@ -25,67 +26,90 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
             return View(positions);
         }
 
-
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public IActionResult Create()
         {
-            var vm = new PositionUpsertVM();
-            
-            if(id != null && id.HasValue)
-            {
-                vm.Position = _unitOfWork.PositionRepository.Find(id.Value);
+            var vm = new PositionCreateVM();
+            vm.Position = new Position();
 
-                if(vm.Position == null)
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                vm.Position = new Position();
-            }
-
-            vm.Departments = _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
-            {
-                Text = d.FullName,
-                Value = d.Id.ToString(),
-            });
+            vm.Departments = GetDepartmentListItems();
 
             return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Position position)
+        public IActionResult Create(Position position)
         {
-            if (!ModelState.IsValid)
-            {
-                var vm = new PositionUpsertVM();
-                vm.Position = position;
-
-                vm.Departments = _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
-                {
-                    Text = d.FullName,
-                    Value = d.Id.ToString(),
-                });
-                return View(vm);
-            }
-
-            if(position.Id != 0)
-            {
-                var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id, noTracking: true);
-                position.CreatedDate = positionFromDb.CreatedDate;
-                _unitOfWork.PositionRepository.Update(position);
-            }
-            else
+            if (ModelState.IsValid)
             {
                 position.CreatedDate = DateTime.Now;
                 _unitOfWork.PositionRepository.Add(position);
+
+                _unitOfWork.Save();
+
+                return RedirectToAction(nameof(Index));
             }
 
-            _unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+            var vm = new PositionCreateVM();
+            vm.Position = position;
+
+            vm.Departments = GetDepartmentListItems();
+
+            return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var vm = new PositionUpdateVM();
+
+            vm.Position = _unitOfWork.PositionRepository.Find(id);
+
+            if (vm.Position == null)
+            {
+                return NotFound();
+            }
+
+            vm.Departments = GetDepartmentListItems();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Position position)
+        {
+            if (ModelState.IsValid)
+            {
+                var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id, noTracking: true);
+
+                position.CreatedDate = positionFromDb.CreatedDate;
+
+                _unitOfWork.PositionRepository.Update(position);
+                _unitOfWork.Save();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            var vm = new PositionUpdateVM();
+
+            vm.Position = position;
+
+            vm.Departments = GetDepartmentListItems();
+
+            return View(vm);
+        }
+
+        private IEnumerable<SelectListItem> GetDepartmentListItems()
+        {
+            return _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
+            {
+                Text = d.FullName,
+                Value = d.Id.ToString(),
+            });
+        }
+
 
         [HttpGet]
         public IActionResult Delete(int id)
