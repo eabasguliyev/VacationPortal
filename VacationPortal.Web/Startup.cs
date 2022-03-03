@@ -61,6 +61,7 @@ namespace VacationPortal.Web
             {
                 configure.LoginPath = "/Identity/Account/Login";
                 configure.LogoutPath = "/Identity/Account/Logout";
+                configure.AccessDeniedPath = "/Identity/Account/AccessDenied";
             });
         }
 
@@ -91,6 +92,14 @@ namespace VacationPortal.Web
                 endpoints.MapControllerRoute(
                     name: "areas",
                     pattern: "{area=Identity}/{controller=Account}/{action=Index}/{id?}"
+                  );
+                endpoints.MapControllerRoute(
+                    name: "areas2",
+                    pattern: "{area=Admin}/{controller=Department}/{action=Index}/{id?}"
+                  );
+                endpoints.MapControllerRoute(
+                    name: "areas3",
+                    pattern: "{area=Client}/{controller=Employee}/{action=Index}/{id?}"
                   );
             });
         }

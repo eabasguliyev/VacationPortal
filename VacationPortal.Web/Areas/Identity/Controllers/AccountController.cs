@@ -93,5 +93,11 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
 
             return RedirectToAction(nameof(Login));
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
