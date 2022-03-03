@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
@@ -28,72 +29,90 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         }
 
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public IActionResult Create()
         {
-            var vm = new VacationInfoUpsertVM();
+            var vm = new VacationInfoCreateVM();
 
-            if(id != null && id.HasValue)
-            {
-                vm.VacationInfo = _unitOfWork.VacationInfoRepository.Find(id.Value);
+            vm.VacationInfo = new VacationInfo();
 
-                if(vm.VacationInfo == null)
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                vm.VacationInfo = new VacationInfo();
-            }
+            vm.Positions = GetPositionListItems();
 
-            vm.Positions = _unitOfWork.PositionRepository.GetAll().Select(p =>
-                new SelectListItem()
-                {
-                    Text = p.Name,
-                    Value = p.Id.ToString(),
-                }
-            );
             return View(vm);
         }
 
         [HttpPost]
-        public IActionResult Upsert(VacationInfo vacationInfo)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(VacationInfo vacationInfo)
         {
             if (!ModelState.IsValid)
             {
-                var vm = new VacationInfoUpsertVM();
+                var vm = new VacationInfoCreateVM();
 
                 vm.VacationInfo = vacationInfo;
 
-                vm.Positions = _unitOfWork.PositionRepository.GetAll().Select(p =>
-                    new SelectListItem()
-                    {
-                        Text = p.Name,
-                        Value = p.Id.ToString(),
-                    });
+                vm.Positions = GetPositionListItems();
 
                 return View(vm);
             }
 
-            if (vacationInfo.Id != 0)
+            vacationInfo.CreatedDate = DateTime.Now;
+
+            _unitOfWork.VacationInfoRepository.Add(vacationInfo);
+
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var vm = new VacationInfoCreateVM();
+
+            vm.VacationInfo = _unitOfWork.VacationInfoRepository.Find(id);
+
+            if (vm.VacationInfo == null)
             {
-                var vacationInfoFromDb = _unitOfWork.VacationInfoRepository.Find(vacationInfo.Id, noTracking: true);
-
-                vacationInfo.CreatedDate = vacationInfoFromDb.CreatedDate;
-                vacationInfo.ModelStatus = vacationInfoFromDb.ModelStatus;
-
-                _unitOfWork.VacationInfoRepository.Update(vacationInfo);
+                return NotFound();
             }
-            else
+
+            vm.Positions = GetPositionListItems();
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(VacationInfo vacationInfo)
+        {
+            if (!ModelState.IsValid)
             {
-                vacationInfo.CreatedDate = DateTime.Now;
+                var vm = new VacationInfoCreateVM();
 
-                _unitOfWork.VacationInfoRepository.Add(vacationInfo);
+                vm.VacationInfo = vacationInfo;
+
+                vm.Positions = GetPositionListItems();
+
+                return View(vm);
             }
 
+            var vacationInfoFromDb = _unitOfWork.VacationInfoRepository.Find(vacationInfo.Id, noTracking: true);
+
+            vacationInfo.CreatedDate = vacationInfoFromDb.CreatedDate;
+            vacationInfo.ModelStatus = vacationInfoFromDb.ModelStatus;
+
+            _unitOfWork.VacationInfoRepository.Update(vacationInfo);
             _unitOfWork.Save();
             
             return RedirectToAction(nameof(Index));
+        }
+
+        private IEnumerable<SelectListItem> GetPositionListItems()
+        {
+            return _unitOfWork.PositionRepository.GetAll().Select(d => new SelectListItem()
+            {
+                Text = d.Name,
+                Value = d.Id.ToString(),
+            });
         }
 
         [HttpGet]

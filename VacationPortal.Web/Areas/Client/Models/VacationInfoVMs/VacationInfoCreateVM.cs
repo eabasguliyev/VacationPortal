@@ -4,7 +4,7 @@ using VacationPortal.Models;
 
 namespace VacationPortal.Web.Areas.Client.Models.VacationInfoVMs
 {
-    public class VacationInfoUpsertVM
+    public class VacationInfoCreateVM
     {
         public VacationInfo VacationInfo { get; set; }
         public IEnumerable<SelectListItem> Positions { get; set; }
