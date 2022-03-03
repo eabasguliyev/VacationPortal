@@ -24,51 +24,61 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
         //[HttpGet("[area]/[controller]/Create")]
         //[HttpGet("[area]/[controller]/Edit/{id}")]
+
         [HttpGet]
-        public IActionResult Upsert(int? id)
+        public IActionResult Create()
         {
-            Department department = null;
-
-            if(id != null && id.HasValue)
-            {
-                department = _unitOfWork.DepartmentRepository.Find(id.Value);
-
-                if(department == null)
-                {
-                    return NotFound();
-                }
-            }
-            else
-            {
-                department = new Department();
-            }
-            return View(department);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Department department)
+        public IActionResult Create(Department department)
         {
             if (!ModelState.IsValid)
             {
                 return View(department);
             }
 
-            if(department.Id != 0)
-            {
-                var departmentFromDb = _unitOfWork.DepartmentRepository.Find(department.Id, noTracking: true);
-                
-                department.CreatedDate = departmentFromDb.CreatedDate;
-                
-                _unitOfWork.DepartmentRepository.Update(department);
-            }
-            else
-            {
-                department.CreatedDate = DateTime.Now;
-                _unitOfWork.DepartmentRepository.Add(department);
-            }
+
+            department.CreatedDate = DateTime.Now;
+            _unitOfWork.DepartmentRepository.Add(department);
 
             _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            Department department = _unitOfWork.DepartmentRepository.Find(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Department department)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(department);
+            }
+
+            var departmentFromDb = _unitOfWork.DepartmentRepository.Find(department.Id, noTracking: true);
+
+            department.CreatedDate = departmentFromDb.CreatedDate;
+
+            _unitOfWork.DepartmentRepository.Update(department);
+
+            _unitOfWork.Save();
+
             return RedirectToAction(nameof(Index));
         }
 
