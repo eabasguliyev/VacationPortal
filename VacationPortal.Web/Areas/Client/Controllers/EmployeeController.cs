@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
+using VacationPortal.Web.Extensions;
 
 namespace VacationPortal.Web.Areas.Client.Controllers
 {
@@ -40,7 +41,12 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var vacationApplication = new VacationApplication()
+            {
+                StartDatetime = DateTime.Now,
+                DaysOfVacation = 1
+            };
+            return View(vacationApplication);
         }
 
         [HttpPost]
@@ -60,7 +66,7 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         #region APICALLS
         public IActionResult GetAll(string status)
         {
-            Enum.TryParse(status, out VacationApplicationStatus vacationStatus);
+            Enum.TryParse(status.Capitalize(), out VacationApplicationStatus vacationStatus);
 
             IEnumerable<VacationApplication> result = null;
 

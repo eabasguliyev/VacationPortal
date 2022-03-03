@@ -4,14 +4,12 @@ $(document).ready(function () {
     const url = window.location.search;
     if (url.includes("pending"))
         loadDataTable("Pending")
-    else if (url.includes(""))
-        loadDataTable("approved")
     else if (url.includes("approved"))
         loadDataTable("Approved")
     else if (url.includes("declined"))
         loadDataTable("Declined")
     else
-        loadDataTable();
+        loadDataTable("");
 });
 
 
@@ -33,7 +31,7 @@ function loadDataTable(status) {
                     "render": function (data) {
                         return `
                             <div class="w-100 btn-group text-center" role="group">
-                                <a href="/Client/Order/HumanResource?id=${data}" class="btn btn-primary" style="width:150px;">
+                                <a href="/Client/HumanResource/Details?id=${data}" class="btn btn-primary" style="width:150px;">
                                     <i class="bi bi-pencil-square mx-2"></i> Details
                                 </a>
                             </div>

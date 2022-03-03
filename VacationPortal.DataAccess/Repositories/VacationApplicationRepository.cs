@@ -9,5 +9,10 @@ namespace VacationPortal.DataAccess.Repositories
         public VacationApplicationRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
+
+        public void UpdateVacationAppStatus(VacationApplication vacationApplication, VacationApplicationStatus status)
+        {
+            vacationApplication.Status = status;
+        }
     }
 }
