@@ -50,6 +50,7 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(VacationApplication vacationApplication)
         {
             if (!ModelState.IsValid) return View(vacationApplication);
