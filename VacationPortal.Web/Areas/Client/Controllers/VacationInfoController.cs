@@ -44,30 +44,41 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(VacationInfo vacationInfo)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var vm = new VacationInfoCreateVM();
+                var vacationForPositionIsExist = _unitOfWork
+                                            .VacationInfoRepository
+                                            .GetFirstOrDefault(vi => vi.PositionId == vacationInfo.PositionId, true);
 
-                vm.VacationInfo = vacationInfo;
+                if (vacationForPositionIsExist == null)
+                {
+                    vacationInfo.CreatedDate = DateTime.Now;
 
-                vm.Positions = GetPositionListItems();
+                    _unitOfWork.VacationInfoRepository.Add(vacationInfo);
 
-                return View(vm);
+                    _unitOfWork.Save();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Position", "Vacation already exists for this position");
+                }
             }
 
-            vacationInfo.CreatedDate = DateTime.Now;
+            var vm = new VacationInfoCreateVM();
 
-            _unitOfWork.VacationInfoRepository.Add(vacationInfo);
+            vm.VacationInfo = vacationInfo;
 
-            _unitOfWork.Save();
+            vm.Positions = GetPositionListItems();
 
-            return RedirectToAction(nameof(Index));
+            return View(vm);
         }
 
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var vm = new VacationInfoCreateVM();
+            var vm = new VacationInfoUpdateVM();
 
             vm.VacationInfo = _unitOfWork.VacationInfoRepository.Find(id);
 
@@ -84,26 +95,37 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(VacationInfo vacationInfo)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var vm = new VacationInfoCreateVM();
+                var vacationForPositionIsExist = _unitOfWork
+                                           .VacationInfoRepository
+                                           .GetFirstOrDefault(vi => vi.PositionId == vacationInfo.PositionId, true);
 
-                vm.VacationInfo = vacationInfo;
+                if (vacationForPositionIsExist == null || vacationInfo.Id == vacationForPositionIsExist.Id)
+                {
+                    var vacationInfoFromDb = _unitOfWork.VacationInfoRepository.Find(vacationInfo.Id, noTracking: true);
 
-                vm.Positions = GetPositionListItems();
+                    vacationInfo.CreatedDate = vacationInfoFromDb.CreatedDate;
+                    vacationInfo.ModelStatus = vacationInfoFromDb.ModelStatus;
 
-                return View(vm);
+                    _unitOfWork.VacationInfoRepository.Update(vacationInfo);
+                    _unitOfWork.Save();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Position", "Vacation already exists for this position");
+                }
             }
 
-            var vacationInfoFromDb = _unitOfWork.VacationInfoRepository.Find(vacationInfo.Id, noTracking: true);
+            var vm = new VacationInfoUpdateVM();
 
-            vacationInfo.CreatedDate = vacationInfoFromDb.CreatedDate;
-            vacationInfo.ModelStatus = vacationInfoFromDb.ModelStatus;
+            vm.VacationInfo = vacationInfo;
 
-            _unitOfWork.VacationInfoRepository.Update(vacationInfo);
-            _unitOfWork.Save();
-            
-            return RedirectToAction(nameof(Index));
+            vm.Positions = GetPositionListItems();
+
+            return View(vm);
         }
 
         private IEnumerable<SelectListItem> GetPositionListItems()
