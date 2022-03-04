@@ -43,12 +43,21 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                position.CreatedDate = DateTime.Now;
-                _unitOfWork.PositionRepository.Add(position);
+                var positionIsExist = _unitOfWork.PositionRepository.GetFirstOrDefault(p => p.Name == position.Name);
 
-                _unitOfWork.Save();
+                if(positionIsExist == null)
+                {
+                    position.CreatedDate = DateTime.Now;
+                    _unitOfWork.PositionRepository.Add(position);
 
-                return RedirectToAction(nameof(Index));
+                    _unitOfWork.Save();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Name", "Position already exists.");
+                }
             }
 
             var vm = new PositionCreateVM();
@@ -82,14 +91,23 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id, noTracking: true);
+                var positionIsExist = _unitOfWork.PositionRepository.GetFirstOrDefault(p => p.Name == position.Name);
 
-                position.CreatedDate = positionFromDb.CreatedDate;
+                if(positionIsExist == null)
+                {
+                    var positionFromDb = _unitOfWork.PositionRepository.Find(position.Id, noTracking: true);
 
-                _unitOfWork.PositionRepository.Update(position);
-                _unitOfWork.Save();
+                    position.CreatedDate = positionFromDb.CreatedDate;
 
-                return RedirectToAction(nameof(Index));
+                    _unitOfWork.PositionRepository.Update(position);
+                    _unitOfWork.Save();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("Name", "Position already exists.");
+                }
             }
 
             var vm = new PositionUpdateVM();

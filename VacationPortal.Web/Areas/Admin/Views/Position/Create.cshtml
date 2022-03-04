@@ -11,7 +11,7 @@
     <div class="col-md-4">
         <form methd="post" asp-action="Create">
             <input hidden asp-for="Position.Id"/>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Position.Name" class="control-label"></label>
                 <input asp-for="Position.Name" class="form-control" />

@@ -1,15 +1,15 @@
 ﻿using FluentValidation;
+using System;
 using VacationPortal.Models;
 
 namespace VacationPortal.Web.Validations
 {
-    public class PositionValidation : AbstractValidator<Position>
+    public class VacationApplicationValidation : AbstractValidator<VacationApplication>
     {
-        public PositionValidation()
+        public VacationApplicationValidation()
         {
-            RuleFor(p => p.Name)
-                    .NotEmpty().WithMessage("Name can not be empty")
-                    .MaximumLength(128).WithMessage("Max length of name is 128 characters");
+            RuleFor(va => va.DaysOfVacation).NotEmpty().GreaterThan(0).WithMessage("Vacation days must be greater than 0");
+            RuleFor(va => va.StartDatetime).NotEmpty().GreaterThan(DateTime.Now).WithMessage("Start date must be greater than now.");
         }
     }
 }
