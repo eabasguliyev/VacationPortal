@@ -38,12 +38,14 @@ namespace VacationPortal.DataAccess.Repositories
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> expression = null, string includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> expression = null, bool noTracking = false, string includeProperties = null)
         {
             IQueryable<T> query = expression != null ? _dbSet.Where(expression) : _dbSet;
 
             query = includeProperties != null ? query.IncludeProperties(includeProperties) : query;
-
+            
+            query = noTracking ? query.AsNoTracking() : query;
+            
             return query.ToList();
         }
 

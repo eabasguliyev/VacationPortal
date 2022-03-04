@@ -9,7 +9,7 @@ namespace VacationPortal.DataAccess.Repositories.Abstracts
     {
         T Find(int id, bool noTracking = false, string? includeProperties = null);
         T GetFirstOrDefault(Expression<Func<T, bool>> expression, bool noTracking = false, string? includeProperties = null);
-        IEnumerable<T> GetAll(Expression<Func<T, bool>>? expression = null, string? includeProperties = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? expression = null, bool noTracking = false, string? includeProperties = null);
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
