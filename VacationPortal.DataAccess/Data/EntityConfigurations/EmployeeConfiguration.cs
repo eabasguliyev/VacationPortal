@@ -75,6 +75,7 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
 
             builder.HasData(employee1);
             builder.HasData(employee2);
+            builder.HasData(employee3);
         }
     }
 }
