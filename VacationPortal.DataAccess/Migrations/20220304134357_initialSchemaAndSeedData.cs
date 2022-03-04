@@ -269,15 +269,15 @@ namespace VacationPortal.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "ModelStatus", "Name", "NormalizedName" },
-                values: new object[] { 1, "8534ab93-a287-4b28-a605-c36d4ed32226", 0, "Admin", "ADMIN" });
+                values: new object[] { 1, "bb3f3dd2-c8d0-4941-a5b3-8771487cb67e", 0, "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModelStatus", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "0e44d94f-2603-4a82-ba13-0efbbef486ea", new DateTime(2022, 3, 2, 15, 27, 4, 533, DateTimeKind.Local).AddTicks(8317), "elgun@gmail.com", false, false, null, 0, "ELGUN@GMAIL.COM", "ELGUN@GMAIL.COM", "AQAAAAEAACcQAAAAEHvglz+0/22bnN+XQTGueerQrrXzWaDq2iiqBLYEZmqYcVB7KRbVjJUYAa+R6z1PkA==", null, false, "55abcbd4-e95b-4a30-a3b3-00e07d4665c8", false, "elgun@gmail.com" },
-                    { 2, 0, "16943208-6016-4c58-bbab-494dd1f78680", new DateTime(2022, 3, 2, 15, 27, 4, 543, DateTimeKind.Local).AddTicks(8027), "senan@gmail.com", false, false, null, 0, "SENAN@GMAIL.COM", "SENAN@GMAIL.COM", "AQAAAAEAACcQAAAAEGhdJURuCVnfogkWJ7ZzGcrgZcV/IOl6fogS3o0ToSHsmI9h6E4mwU1/a2gG88FWrg==", null, false, "76439d7d-10b5-4d46-876c-301a6bc9e18a", false, "senan@gmail.com" }
+                    { 1, 0, "201f1af5-5c3e-4d2a-80df-ea489519e44f", new DateTime(2022, 3, 4, 17, 43, 56, 542, DateTimeKind.Local).AddTicks(3303), "elgun@gmail.com", false, false, null, 0, "ELGUN@GMAIL.COM", "ELGUN@GMAIL.COM", "AQAAAAEAACcQAAAAEH11w8b1HX0dxDQ+CXeF8LhqYyiAu2OKt4jKtx/HECJjI904654Ndpi2Ic6otVvYYg==", null, false, "cb65be85-590a-4549-ba35-fc45d04c5d0a", false, "elgun@gmail.com" },
+                    { 2, 0, "0c6ba57f-3a02-4b02-b002-479b8e733763", new DateTime(2022, 3, 4, 17, 43, 56, 563, DateTimeKind.Local).AddTicks(4946), "senan@gmail.com", false, false, null, 0, "SENAN@GMAIL.COM", "SENAN@GMAIL.COM", "AQAAAAEAACcQAAAAEFUYRbnavZ6VPDKaM7Em7e32EeF7BQdDTswOUQkCe5Zho8UD5Rvf1QlqWf17g9UZlg==", null, false, "640dd97f-254e-47e1-9526-0d5cf031f8db", false, "senan@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -285,8 +285,8 @@ namespace VacationPortal.DataAccess.Migrations
                 columns: new[] { "Id", "CreatedDate", "Description", "FullName", "ModelStatus", "ShortName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 3, 2, 15, 27, 4, 528, DateTimeKind.Local).AddTicks(7705), null, "Human Resource", 0, "HR" },
-                    { 2, new DateTime(2022, 3, 2, 15, 27, 4, 530, DateTimeKind.Local).AddTicks(9911), null, "Information Technology", 0, "IT" }
+                    { 1, new DateTime(2022, 3, 4, 17, 43, 56, 532, DateTimeKind.Local).AddTicks(3497), null, "Human Resource", 0, "HR" },
+                    { 2, new DateTime(2022, 3, 4, 17, 43, 56, 536, DateTimeKind.Local).AddTicks(5118), null, "Information Technology", 0, "IT" }
                 });
 
             migrationBuilder.InsertData(
@@ -294,9 +294,9 @@ namespace VacationPortal.DataAccess.Migrations
                 columns: new[] { "Id", "CreatedDate", "ModelStatus", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(1777), 0, "Assistant" },
-                    { 2, new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(2210), 0, "Manager" },
-                    { 3, new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(2218), 0, "Director" }
+                    { 1, new DateTime(2022, 3, 4, 17, 43, 56, 588, DateTimeKind.Local).AddTicks(8092), 0, "Assistant" },
+                    { 2, new DateTime(2022, 3, 4, 17, 43, 56, 588, DateTimeKind.Local).AddTicks(8531), 0, "Manager" },
+                    { 3, new DateTime(2022, 3, 4, 17, 43, 56, 588, DateTimeKind.Local).AddTicks(8540), 0, "Director" }
                 });
 
             migrationBuilder.InsertData(

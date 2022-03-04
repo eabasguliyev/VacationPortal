@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VacationPortal.Models
 {
@@ -8,6 +9,7 @@ namespace VacationPortal.Models
         public int Days { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
+        [Display(Name = "Position")]
         public int PositionId { get; set; }
         public Position Position { get; set; }
         public ModelStatus ModelStatus { get; set; }

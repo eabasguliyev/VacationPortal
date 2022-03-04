@@ -56,6 +56,23 @@ namespace VacationPortal.DataAccess.Data.EntityConfigurations
 
             employee2.PasswordHash = ph.HashPassword(employee2, "Senan1234!");
 
+            var employee3 = new Employee()
+            {
+                Id = 3,
+                FirstName = "Arif",
+                LastName = "Baghirli",
+                Email = "arif@gmail.com",
+                UserName = "arif@gmail.com",
+                NormalizedUserName = "ARIF@GMAIL.COM",
+                NormalizedEmail = "ARIF@GMAIL.COM",
+                PositionId = 1,
+                DepartmentId = 2,
+                CreatedDate = DateTime.Now,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            employee3.PasswordHash = ph.HashPassword(employee3, "Arif1234!");
+
             builder.HasData(employee1);
             builder.HasData(employee2);
         }

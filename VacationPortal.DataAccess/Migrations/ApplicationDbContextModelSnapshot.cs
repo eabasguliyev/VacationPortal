@@ -161,7 +161,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 528, DateTimeKind.Local).AddTicks(7705),
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 532, DateTimeKind.Local).AddTicks(3497),
                             FullName = "Human Resource",
                             ModelStatus = 0,
                             ShortName = "HR"
@@ -169,7 +169,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 530, DateTimeKind.Local).AddTicks(9911),
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 536, DateTimeKind.Local).AddTicks(5118),
                             FullName = "Information Technology",
                             ModelStatus = 0,
                             ShortName = "IT"
@@ -200,21 +200,21 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(1777),
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 588, DateTimeKind.Local).AddTicks(8092),
                             ModelStatus = 0,
                             Name = "Assistant"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(2210),
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 588, DateTimeKind.Local).AddTicks(8531),
                             ModelStatus = 0,
                             Name = "Manager"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 552, DateTimeKind.Local).AddTicks(2218),
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 588, DateTimeKind.Local).AddTicks(8540),
                             ModelStatus = 0,
                             Name = "Director"
                         });
@@ -328,7 +328,7 @@ namespace VacationPortal.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "8534ab93-a287-4b28-a605-c36d4ed32226",
+                            ConcurrencyStamp = "bb3f3dd2-c8d0-4941-a5b3-8771487cb67e",
                             ModelStatus = 0,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -427,17 +427,17 @@ namespace VacationPortal.DataAccess.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0e44d94f-2603-4a82-ba13-0efbbef486ea",
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 533, DateTimeKind.Local).AddTicks(8317),
+                            ConcurrencyStamp = "201f1af5-5c3e-4d2a-80df-ea489519e44f",
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 542, DateTimeKind.Local).AddTicks(3303),
                             Email = "elgun@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             ModelStatus = 0,
                             NormalizedEmail = "ELGUN@GMAIL.COM",
                             NormalizedUserName = "ELGUN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHvglz+0/22bnN+XQTGueerQrrXzWaDq2iiqBLYEZmqYcVB7KRbVjJUYAa+R6z1PkA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH11w8b1HX0dxDQ+CXeF8LhqYyiAu2OKt4jKtx/HECJjI904654Ndpi2Ic6otVvYYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "55abcbd4-e95b-4a30-a3b3-00e07d4665c8",
+                            SecurityStamp = "cb65be85-590a-4549-ba35-fc45d04c5d0a",
                             TwoFactorEnabled = false,
                             UserName = "elgun@gmail.com",
                             DepartmentId = 2,
@@ -449,17 +449,17 @@ namespace VacationPortal.DataAccess.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "16943208-6016-4c58-bbab-494dd1f78680",
-                            CreatedDate = new DateTime(2022, 3, 2, 15, 27, 4, 543, DateTimeKind.Local).AddTicks(8027),
+                            ConcurrencyStamp = "0c6ba57f-3a02-4b02-b002-479b8e733763",
+                            CreatedDate = new DateTime(2022, 3, 4, 17, 43, 56, 563, DateTimeKind.Local).AddTicks(4946),
                             Email = "senan@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             ModelStatus = 0,
                             NormalizedEmail = "SENAN@GMAIL.COM",
                             NormalizedUserName = "SENAN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGhdJURuCVnfogkWJ7ZzGcrgZcV/IOl6fogS3o0ToSHsmI9h6E4mwU1/a2gG88FWrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFUYRbnavZ6VPDKaM7Em7e32EeF7BQdDTswOUQkCe5Zho8UD5Rvf1QlqWf17g9UZlg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "76439d7d-10b5-4d46-876c-301a6bc9e18a",
+                            SecurityStamp = "640dd97f-254e-47e1-9526-0d5cf031f8db",
                             TwoFactorEnabled = false,
                             UserName = "senan@gmail.com",
                             DepartmentId = 1,
