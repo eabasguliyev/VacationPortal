@@ -8,7 +8,7 @@
 
             var lower = value.ToLower();
 
-            return lower[0].ToString() + lower.Substring(1);
+            return lower[0].ToString().ToUpper() + lower.Substring(1);
         }
     }
 }

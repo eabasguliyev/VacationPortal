@@ -22,7 +22,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var positions = _unitOfWork.PositionRepository.GetAll();
+            var positions = _unitOfWork.PositionRepository.GetAll(noTracking: true);
             return View(positions);
         }
 
@@ -43,7 +43,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var positionIsExist = _unitOfWork.PositionRepository.GetFirstOrDefault(p => p.Name == position.Name);
+                var positionIsExist = _unitOfWork.PositionRepository.GetFirstOrDefault(p => p.Name == position.Name, noTracking: true);
 
                 if(positionIsExist == null)
                 {
@@ -91,7 +91,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var positionIsExist = _unitOfWork.PositionRepository.GetFirstOrDefault(p => p.Name == position.Name);
+                var positionIsExist = _unitOfWork.PositionRepository.GetFirstOrDefault( p => p.Name == position.Name, noTracking: true);
 
                 if(positionIsExist == null)
                 {
@@ -121,7 +121,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
         private IEnumerable<SelectListItem> GetDepartmentListItems()
         {
-            return _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
+            return _unitOfWork.DepartmentRepository.GetAll(noTracking: true).Select(d => new SelectListItem()
             {
                 Text = d.FullName,
                 Value = d.Id.ToString(),

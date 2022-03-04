@@ -31,7 +31,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var employees = _unitOfWork.EmployeeRepository.GetAll(includeProperties: "Department,Position").Select(e => new EmployeeVM()
+            var employees = _unitOfWork.EmployeeRepository.GetAll(noTracking: true, includeProperties: "Department,Position").Select(e => new EmployeeVM()
             {
                 Id = e.Id,
                 Email = e.Email,
@@ -200,7 +200,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
         private IEnumerable<SelectListItem> GetDepartmentListItems()
         {
-            return _unitOfWork.DepartmentRepository.GetAll().Select(d => new SelectListItem()
+            return _unitOfWork.DepartmentRepository.GetAll(noTracking: true).Select(d => new SelectListItem()
             {
                 Text = d.FullName,
                 Value = d.Id.ToString(),
@@ -209,7 +209,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
 
         private IEnumerable<SelectListItem> GetPositionListItems()
         {
-            return _unitOfWork.PositionRepository.GetAll().Select(d => new SelectListItem()
+            return _unitOfWork.PositionRepository.GetAll(noTracking: true).Select(d => new SelectListItem()
             {
                 Text = d.Name,
                 Value = d.Id.ToString(),

@@ -18,12 +18,9 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll(noTracking: true);
             return View(departments);
         }
-
-        //[HttpGet("[area]/[controller]/Create")]
-        //[HttpGet("[area]/[controller]/Edit/{id}")]
 
         [HttpGet]
         public IActionResult Create()
@@ -52,7 +49,7 @@ namespace VacationPortal.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            Department department = _unitOfWork.DepartmentRepository.Find(id);
+            Department department = _unitOfWork.DepartmentRepository.Find(id, noTracking: true);
 
             if (department == null)
             {

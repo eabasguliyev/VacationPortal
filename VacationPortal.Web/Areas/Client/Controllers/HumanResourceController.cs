@@ -98,7 +98,7 @@ namespace VacationPortal.Web.Areas.Client.Controllers
 
             var vacationApplications = _unitOfWork
                     .VacationApplicationRepository
-                    .GetAll(expr, includeProperties: "Employee").Select(va => new
+                    .GetAll(expr, noTracking:true, includeProperties: "Employee").Select(va => new
                     {
                         Id = va.Id,
                         FirstName = va.Employee.FirstName,

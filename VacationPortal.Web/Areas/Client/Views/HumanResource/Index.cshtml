@@ -1,32 +1,71 @@
-﻿@{
+﻿@using VacationPortal.Web.Extensions
+@{
     ViewData["Title"] = "Index";
+
+    var status = Context.Request.Query["status"].ToString().ToLower();
+    List<string> statuses = new List<string>()
+    {
+       "pending",
+       "approved",
+       "declined",
+    };
 }
 
-<table id="tblData" class="table table-bordered table-striped" style="width: 100%">
-    <thead>
-        <tr>
-            <th>
-                ID
-            </th>
-            <th>
-                Firstname
-            </th>
-            <th>
-                Last Name
-            </th>
-            <th>
-                Start Date
-            </th>
-            <th>
-                Days of Vacation
-            </th>
-            <th>
-                Status
-            </th>
-            <th>Action</th>
-        </tr>
-    </thead>
-</table>
+<div class="p-3">
+    <div class="d-flex justify-content-between pt-4">
+        <div class="p-2">
+            <h2 class="text-primary">Application List</h2>
+        </div>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                @foreach(var item in statuses)
+                {
+                    <a style="text-decoration: none;" asp-action="Index" asp-route-status="@item">
+                        @if(item == status)
+                        {
+                            <li class="list-group-item active text-white">@item.Capitalize()</li>
+                        }else{
+                             <li class="list-group-item text-primary">@item.Capitalize()</li>
+                        }
+                    </a>
+                }
+                <a style="text-decoration: none;" asp-action="Index" asp-route-status="all">
+                @if(String.IsNullOrWhiteSpace(status) || status == "all")
+                {
+                    <li class="list-group-item active text-white">All</li>
+                }else{
+                    <li class="list-group-item text-primary">All</li>
+                }
+                </a>
+            </ul>
+        </div>
+    </div>
+    <table id="tblData" class="table table-bordered table-striped" style="width: 100%">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Firstname
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    Days of Vacation
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+</div>
 
 @section Scripts{
     <script src="~/js/hrvacationapp.js"></script>

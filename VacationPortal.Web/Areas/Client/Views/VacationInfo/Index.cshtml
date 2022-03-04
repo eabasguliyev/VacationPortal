@@ -27,9 +27,6 @@
             <th>
                 Position Name
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModelStatus)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,9 +47,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Position.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModelStatus)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Update", new {  id=item.Id }) |

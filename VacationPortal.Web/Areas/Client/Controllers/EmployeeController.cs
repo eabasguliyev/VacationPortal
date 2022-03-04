@@ -120,7 +120,7 @@ namespace VacationPortal.Web.Areas.Client.Controllers
             var expression = 
                 GetExpressionByCondition(statusIsEmpty, _employeeId, vacationStatus);
 
-            result = _unitOfWork.VacationApplicationRepository.GetAll(expression);
+            result = _unitOfWork.VacationApplicationRepository.GetAll(expression, noTracking: true);
 
             var vacationApplications = result.Select(va => new
                     {
