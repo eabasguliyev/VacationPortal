@@ -1,4 +1,4 @@
-﻿@using VacationPortal.Web.Areas.Client.Models.HumanResourceVMs
+﻿@using VacationPortal.Web.Areas.Client.Models.EmployeeVMs
 @model VacationAppDetailsVM
 
 @{
@@ -76,13 +76,6 @@
             }
         </div>        
     </div>
-    @if(Model.VacationApplication.Status == VacationPortal.Models.VacationApplicationStatus.Pending)
-    {
-        <div class="row mb-2 py-4">
-            <a class="col btn btn-primary" asp-action="Accept" asp-route-id="@Model.VacationApplication.Id">Accept</a>
-            <a class="col btn btn-secondary" asp-action="Decline" asp-route-id="@Model.VacationApplication.Id">Decline</a>
-        </div>
-    }
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

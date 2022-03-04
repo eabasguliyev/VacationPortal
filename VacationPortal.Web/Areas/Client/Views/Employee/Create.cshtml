@@ -1,4 +1,5 @@
-﻿@model VacationPortal.Models.VacationApplication
+﻿@using VacationPortal.Web.Areas.Client.Models.EmployeeVMs
+@model VacationAppCreateVM
 
 @{
     ViewData["Title"] = "Create";
@@ -7,23 +8,56 @@
 <h4>VacationApplication</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StartDatetime" class="control-label"></label>
-                <input asp-for="StartDatetime" class="form-control" />
-                <span asp-validation-for="StartDatetime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DaysOfVacation" class="control-label"></label>
-                <input asp-for="DaysOfVacation" class="form-control" />
-                <span asp-validation-for="DaysOfVacation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Send" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col">
+        <div class="col-md-4">
+            <form method="post" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="VacationApplication.StartDatetime" class="control-label"></label>
+                    <input asp-for="VacationApplication.StartDatetime" class="form-control" />
+                    <span asp-validation-for="VacationApplication.StartDatetime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VacationApplication.DaysOfVacation" class="control-label"></label>
+                    <input asp-for="VacationApplication.DaysOfVacation" class="form-control" />
+                    <span asp-validation-for="VacationApplication.DaysOfVacation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Send" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col">
+        @if(Model.VacationInfo != null)
+        {
+            <h3>Vacation for this position</h3>
+            <dl class="row">
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.VacationInfo.Position)
+                </dt>
+                <dt class = "col-sm-10">
+                    @Html.DisplayFor(model => model.VacationInfo.Position.Name)
+                </dt>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.VacationInfo.Days)
+                </dt>
+                <dt class = "col-sm-10">
+                    @Html.DisplayFor(model => model.VacationInfo.Days)
+                </dt>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.VacationInfo.Description)
+                </dt>
+                <dt class = "col-sm-10">
+                    @Html.DisplayFor(model => model.VacationInfo.Description)
+                </dt>
+            
+            </dl>
+        }
+        else
+        {
+           <h3>There is no vacation for this position.</h3> 
+        }
     </div>
 </div>
 

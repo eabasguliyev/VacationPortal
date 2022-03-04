@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
+using VacationPortal.Web.Areas.Client.Models.EmployeeVMs;
 using VacationPortal.Web.Extensions;
 
 namespace VacationPortal.Web.Areas.Client.Controllers
@@ -41,19 +42,43 @@ namespace VacationPortal.Web.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var vacationApplication = new VacationApplication()
+            if (_unitOfWork.VacationApplicationRepository.IsExistPendingApplicationByEmployeeId(_employeeId))
+            {
+                TempData["error"] = "You already created application.";
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            var vm = new VacationAppCreateVM();
+            vm.VacationApplication = new VacationApplication()
             {
                 StartDatetime = DateTime.Now,
                 DaysOfVacation = 1
             };
-            return View(vacationApplication);
+
+            var posId = _unitOfWork.EmployeeRepository.GetPositionIdByEmployeeId(_employeeId);
+            vm.VacationInfo = _unitOfWork.VacationInfoRepository
+                .GetFirstOrDefault(vi => vi.PositionId == posId, noTracking: true, includeProperties: "Position");
+
+
+            return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(VacationApplication vacationApplication)
         {
-            if (!ModelState.IsValid) return View(vacationApplication);
+            if (!ModelState.IsValid)
+            {
+                var vm = new VacationAppCreateVM();
+                vm.VacationApplication = vacationApplication;
+
+                var posId = _unitOfWork.EmployeeRepository.GetPositionIdByEmployeeId(_employeeId);
+                vm.VacationInfo = _unitOfWork.VacationInfoRepository
+                    .GetFirstOrDefault(vi => vi.PositionId == posId, noTracking: true, includeProperties: "Position");
+
+                return View(vm);
+            }
 
             vacationApplication.CreatedDate = DateTime.Now;
             vacationApplication.EmployeeId = _employeeId;
@@ -63,6 +88,25 @@ namespace VacationPortal.Web.Areas.Client.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var vacationApplication = _unitOfWork.VacationApplicationRepository.Find(id, noTracking: true, "Employee");
+
+            if (vacationApplication == null) return NotFound();
+
+            var vm = new VacationAppDetailsVM();
+
+            vm.VacationApplication = vacationApplication;
+
+            var posId = _unitOfWork.EmployeeRepository.GetPositionIdByEmployeeId(_employeeId);
+            vm.VacationInfo = _unitOfWork.VacationInfoRepository
+                .GetFirstOrDefault(vi => vi.PositionId == posId, noTracking: true, includeProperties: "Position");
+
+            return View(vm);
+        }
+
 
         #region APICALLS
         public IActionResult GetAll(string status)

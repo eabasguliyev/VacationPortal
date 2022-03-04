@@ -1,4 +1,6 @@
-﻿using VacationPortal.DataAccess.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using VacationPortal.DataAccess.Data;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
 

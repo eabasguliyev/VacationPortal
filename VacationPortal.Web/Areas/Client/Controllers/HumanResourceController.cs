@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using VacationPortal.DataAccess.Repositories.Abstracts;
 using VacationPortal.Models;
+using VacationPortal.Web.Areas.Client.Models.HumanResourceVMs;
 using VacationPortal.Web.Extensions;
 
 namespace VacationPortal.Web.Areas.Client.Controllers
@@ -16,6 +17,18 @@ namespace VacationPortal.Web.Areas.Client.Controllers
     public class HumanResourceController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+
+        private int _employeeId
+        {
+            get
+            {
+                var employeeId = int.Parse(
+                                    HttpContext.User.Claims.FirstOrDefault(c =>
+                                    c.Type == ClaimTypes.NameIdentifier).Value);
+
+                return employeeId;
+            }
+        }
 
         public HumanResourceController(IUnitOfWork unitOfWork)
         {
@@ -35,7 +48,15 @@ namespace VacationPortal.Web.Areas.Client.Controllers
 
             if (vacationApplication == null) return NotFound();
 
-            return View(vacationApplication);
+            var vm = new VacationAppDetailsVM();
+
+            vm.VacationApplication = vacationApplication;
+
+            var posId = _unitOfWork.EmployeeRepository.GetPositionIdByEmployeeId(_employeeId);
+            vm.VacationInfo = _unitOfWork.VacationInfoRepository
+                .GetFirstOrDefault(vi => vi.PositionId == posId, noTracking: true, includeProperties: "Position");
+
+            return View(vm);
         }
 
         [HttpGet]
