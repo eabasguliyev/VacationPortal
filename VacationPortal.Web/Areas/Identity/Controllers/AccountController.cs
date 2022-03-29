@@ -67,7 +67,7 @@ namespace VacationPortal.Web.Areas.Identity.Controllers
                             });
                         }
                         
-                        return RedirectToAction("Index", "Home", new
+                        return RedirectToAction("Index", "Employee", new
                         {
                             area = "Client"
                         });
